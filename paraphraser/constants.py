@@ -1,1 +1,2 @@
-LANGUAGE = 'en'
+SYSTEM_LANGUAGE = 'en'
+BEAM = 5

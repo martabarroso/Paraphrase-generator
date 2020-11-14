@@ -19,7 +19,8 @@ if __name__ == '__main__':
                         default=os.path.join('input', 'example.txt'))
     parser.add_argument('--n', type=int, help='Number of generated paraphrases per sentence.', default=5)
     args = parser.parse_args()
-    if len(args.input) > 4 and args.input[-4:] != '.txt' and len(args.input.split()) == 1:
+    if len(args.input) < 4 or (len(args.input) > 4 and (args.input[-4:] != '.txt' or (args.input[-4:] == '.txt' and
+                                                                                      len(args.input.split()) != 1))):
         paraphraser = Paraphraser.build(args.method, args.translators)
         for p in paraphraser.paraphrase(args.input, n_paraphrases=args.n):
             print(p)
@@ -32,7 +33,7 @@ if __name__ == '__main__':
     sha = repo.head.object.hexsha
     extra_id = uuid.uuid4().hex
     output_dir = os.path.join(output_path,
-                              f'{args.method}-{"_".join(args.translators)}-{input_name}{timestamp}-{sha[:4]}-'
+                              f'{args.method}-{"_".join(args.translators)}-{input_name}-{timestamp}-{sha[:4]}-'
                               f'{extra_id[:4]}')
 
     os.makedirs(output_dir)
@@ -43,3 +44,6 @@ if __name__ == '__main__':
     paraphrases = paraphraser.paraphrase_sentences(sentences, n_paraphrases_per_sentence=args.n)
     with open(os.path.join(output_dir, 'paraphrases.json'), 'w') as f:
         json.dump(paraphrases, f, indent=4)
+
+    with open(os.path.join(output_dir, 'args.json'), 'w') as f:
+        json.dump(vars(args), f, indent=4)

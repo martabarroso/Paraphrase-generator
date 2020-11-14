@@ -18,7 +18,7 @@ class InstrinsicEvaluator:
 
     def evaluate_paraphrases(self, sentences2paraphrases_dict: Dict) -> Dict:
         results = []
-        for sentence, paraphrases in sentences2paraphrases_dict:
+        for sentence, paraphrases in sentences2paraphrases_dict.items():
             results.append(self.evaluate_individual_sentence(sentence, paraphrases))
         # TODO: aggregate results into dict? (E.g., average, std...)
         return {}

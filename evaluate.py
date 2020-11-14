@@ -20,7 +20,7 @@ if __name__ == '__main__':
     name = f'eval-{timestamp}-{sha[:4]}-{extra_id[:4]}'
     init_logging(os.path.join(args.output_path, name + '.log'))
     evaluators = Evaluator.get_all_evaluators()
-    with open(args.output, 'r') as f:
+    with open(os.path.join(output, 'paraphrases.json'), 'r') as f:
         sentences2paraphrases_dict = json.load(f)
     results = {}
     for evaluator in evaluators:
