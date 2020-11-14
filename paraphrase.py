@@ -11,7 +11,7 @@ from paraphraser.utils import init_logging
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('Paraphraser')
-    parser.add_argument('--method', default='roundtrip', choices=['roundtrip', 'intermediate', '2cycles'])
+    parser.add_argument('--method', default='roundtrip', choices=['roundtrip', 'intermediate', '2cycles', 'dummy'])
     parser.add_argument('--translators', type=str, help='Translator names separated by whitespaces.', nargs='+',
                         default=[])
     parser.add_argument('--input', type=str, help='Either sentence to translate, between quotes (""), or'
@@ -19,9 +19,9 @@ if __name__ == '__main__':
                         default=os.path.join('input', 'example.txt'))
     parser.add_argument('--n', type=int, help='Number of generated paraphrases per sentence.', default=5)
     args = parser.parse_args()
-    if len(args.input) > 4 and args.input[-4:] == '.txt' and len(args.input.split()) == 1:
+    if len(args.input) > 4 and args.input[-4:] != '.txt' and len(args.input.split()) == 1:
         paraphraser = Paraphraser.build(args.method, args.translators)
-        for p in paraphraser.paraphrase(args.input, n=args.n):
+        for p in paraphraser.paraphrase(args.input, n_paraphrases=args.n):
             print(p)
         exit()
 
@@ -40,6 +40,6 @@ if __name__ == '__main__':
     paraphraser = Paraphraser.build(args.method, args.translators)
     with open(args.input, 'r') as f:
         sentences = f.readlines()
-    paraphrases = paraphraser.paraphrase_sentences(sentences)
+    paraphrases = paraphraser.paraphrase_sentences(sentences, n_paraphrases_per_sentence=args.n)
     with open(os.path.join(output_dir, 'paraphrases.json'), 'w') as f:
         json.dump(paraphrases, f, indent=4)

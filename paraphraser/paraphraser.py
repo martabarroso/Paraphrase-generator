@@ -22,13 +22,24 @@ class Paraphraser:
 
     @staticmethod
     def build(method: str, translators: List[str]):
-        if method == 'roundtrip':
+        if method == 'dummy':
+            import logging
+            logging.warning('Using DUMMY paraphraser')
+            return DummyParaphraser()
+        elif method == 'roundtrip':
             assert len(translators) in [1, 2]  # Either bidirectional system, or two systems
             return RoundTripParaphraser(translators)
         elif method == 'intermediate':
             return IntermediateParaphraser(translators)
         else:
             return TwoCyclesParaphraser(translators)
+
+
+class DummyParaphraser:
+
+    def paraphrase_sentences(self, sentences: List[str], n_paraphrases_per_sentence: Optional[int]) -> List[List[str]]:
+        # Identity
+        return [[sentence.strip()]*n_paraphrases_per_sentence for sentence in sentences]
 
 
 class RoundTripParaphraser(Paraphraser):
@@ -42,7 +53,7 @@ class RoundTripParaphraser(Paraphraser):
         for i in range(len(sentences)):
             result[i] = []
             for translations in translated_sentences:
-                result[i].append(translations[i])
+                result[i].append(translations[i].strip())
         return result
 
 
