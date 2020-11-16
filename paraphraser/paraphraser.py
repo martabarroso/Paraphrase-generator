@@ -13,7 +13,7 @@ class Paraphraser:
             for direction in translator.directions:
                 orig, target = direction
                 if orig != SYSTEM_LANGUAGE:
-                    continue
+                    pass#continue
                 if orig in self.translators:
                     if target in self.translators[orig]:
                         self.translators[orig][target][translator_name] = translator
@@ -78,7 +78,7 @@ class RoundTripParaphraser(Paraphraser):
                         translations)
         result = deepcopy(sentence_dict)
         for from_other_to_orig in first_trip:
-            for system_name in self.translators[SYSTEM_LANGUAGE][from_other_to_orig]:
+            for system_name in self.translators[from_other_to_orig][SYSTEM_LANGUAGE]:
                 batched_sentences = []
                 batched_idx = []
                 idx = 0
@@ -88,7 +88,7 @@ class RoundTripParaphraser(Paraphraser):
                     idx += len(first_trip[from_other_to_orig][sentence])
 
                 backtranslated_sentences = \
-                    self.translators[SYSTEM_LANGUAGE][from_other_to_orig][system_name].translate_sentences(
+                    self.translators[from_other_to_orig][SYSTEM_LANGUAGE][system_name].translate_sentences(
                         batched_sentences, n_translations_per_sentence)
 
                 for idx, sentence in enumerate(sentences):

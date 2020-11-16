@@ -35,6 +35,11 @@ class FAIRHubTranslator(Translator):
     def __init__(self, hub_entry: str, name: str, directions: List[Tuple[str, str]]):
         super().__init__()
         self.system = torch.hub.load('pytorch/fairseq', hub_entry)
+        self.system.eval()
+        if torch.cuda.is_available():
+            self.system.cuda()
+        else:
+            logging.warning('Running on CPU')
         self.name = name
         self._directions = directions
 
