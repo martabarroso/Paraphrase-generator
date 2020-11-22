@@ -9,8 +9,8 @@ from nltk.tokenize import word_tokenize
 
 class Preprocessing:
 
-    def __init__(self, num_words, seq_len):
-        self.data = './input.csv'
+    def __init__(self, num_words, seq_len, input_path):
+        self.data = input_path
         self.num_words = num_words
         self.seq_len = seq_len
         self.vocabulary = None

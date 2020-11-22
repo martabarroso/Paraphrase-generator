@@ -5,7 +5,7 @@ from evaluation.run import Run
 
 
 if __name__ == '__main__':
-    data = Preprocessing(CONFIGURATION['num_words'], CONFIGURATION['seq_len']).preprocess()
+    data = Preprocessing(CONFIGURATION['num_words'], CONFIGURATION['seq_len'], './input.csv').preprocess()
 
     # Initialize the model
     model = TextClassifier(CONFIGURATION)
