@@ -16,6 +16,10 @@ class Translator:
             return FAIRPretrainedWMT19EnglishGermanTranslator()
         elif translator_name == 'fair-wmt19-de-en':
             return FAIRPretrainedWMT19GermanEnglishTranslator()
+        elif translator_name == 'fair-wmt19-en-ru':
+            return FAIRPretrainedWMT19EnglishRussianTranslator()
+        elif translator_name == 'fair-wmt19-ru-en':
+            return FAIRPretrainedWMT19RussianEnglishTranslator()
         else:
             raise NotImplementedError(translator_name)
 
