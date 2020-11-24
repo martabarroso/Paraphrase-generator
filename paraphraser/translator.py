@@ -73,3 +73,13 @@ class FAIRPretrainedWMT19EnglishGermanTranslator(FAIRHubTranslator):
 class FAIRPretrainedWMT19GermanEnglishTranslator(FAIRHubTranslator):
     def __init__(self):
         super().__init__('transformer.wmt19.de-en.single_model', 'fair-wmt19-de-en', [('de', 'en')])
+
+
+class FAIRPretrainedWMT19EnglishRussianTranslator(FAIRHubTranslator):
+    def __init__(self):
+        super().__init__('transformer.wmt19.en-ru.single_model', 'fair-wmt19-en-ru', [('en', 'ru')])
+
+
+class FAIRPretrainedWMT19RussianEnglishTranslator(FAIRHubTranslator):
+    def __init__(self):
+        super().__init__('transformer.wmt19.ru-en.single_model', 'fair-wmt19-ru-en', [('ru', 'en')])
