@@ -13,7 +13,7 @@ class Paraphraser:
             for direction in translator.directions:
                 orig, target = direction
                 if orig != SYSTEM_LANGUAGE:
-                    pass#continue
+                    pass
                 if orig in self.translators:
                     if target in self.translators[orig]:
                         self.translators[orig][target][translator_name] = translator
@@ -32,6 +32,28 @@ class Paraphraser:
         for idx, sentence in enumerate(sentences):
             sentences[idx] = sentence.strip()
         return self._paraphrase_sentences(sentences, n_paraphrases_per_sentence)
+
+    def n_paraphrase_sentences(self, sentences: List[str], n_paraphrases_per_sentence: int,
+                               language_list: List[str]):
+        language_translation_mapping = {}
+        i = 1
+        while i < len(language_list):
+            orig_lan = language_list[i - 1]
+            dest_lan = language_list[i]
+            if i == 1:
+                language_translation_mapping[orig_lan] = [sentences]
+            for translation_model_names in self.translators[orig_lan][dest_lan]:
+                sentences = language_translation_mapping[orig_lan][-1]
+                translated_sentences = \
+                    self.translators[orig_lan][dest_lan][translation_model_names].translate_sentences(
+                        sentences, n_paraphrases_per_sentence)
+                translated_sentences = [sentence[0] for sentence in translated_sentences]
+                if dest_lan not in language_translation_mapping:
+                    language_translation_mapping[dest_lan] = [translated_sentences]
+                else:
+                    language_translation_mapping[dest_lan].append(translated_sentences)
+            i = i + 1
+        return language_translation_mapping
 
     @staticmethod
     def build(method: str, translators: List[str]):
