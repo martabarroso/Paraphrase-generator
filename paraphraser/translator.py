@@ -2,7 +2,7 @@ from typing import List, Tuple, Union
 import torch
 from .constants import BEAM
 import logging
-
+import ssl
 
 class Translator:
     def __init__(self):
@@ -38,6 +38,7 @@ class Translator:
 class FAIRHubTranslator(Translator):
     def __init__(self, hub_entry: str, name: str, directions: List[Tuple[str, str]]):
         super().__init__()
+        ssl._create_default_https_context = ssl._create_unverified_context
         self.system = torch.hub.load('pytorch/fairseq', hub_entry)
         self.system.eval()
         if torch.cuda.is_available():
@@ -87,3 +88,4 @@ class FAIRPretrainedWMT19EnglishRussianTranslator(FAIRHubTranslator):
 class FAIRPretrainedWMT19RussianEnglishTranslator(FAIRHubTranslator):
     def __init__(self):
         super().__init__('transformer.wmt19.ru-en.single_model', 'fair-wmt19-ru-en', [('ru', 'en')])
+
