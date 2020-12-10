@@ -35,6 +35,11 @@ class Preprocessing:
 
         return {'x_train': self.x_train, 'y_train': self.y_train, 'x_test': self.x_test, 'y_test': self.y_test}
 
+    def _transform_data(self, input_path, paraphrases):
+        # TODO add the paraphrases with the corresponding class in the csv of training
+        pass
+
+
     def _load_data(self):
         # Reads the csv file split into
         # sentences (x) and target (y)
