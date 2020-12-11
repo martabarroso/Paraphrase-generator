@@ -25,42 +25,51 @@ class Preprocessing:
         self.y_test = None
 
     def preprocess(self):
-        self._load_data()
-        self._clean_text()
-        self._text_tokenization()
-        self._build_vocabulary()
-        self._word_to_idx()
-        self._padding_sentences()
-        self._split_data()
+        self.load_data()
+        self.clean_text()
+        self.text_tokenization()
+        self.build_vocabulary()
+        self.word_to_idx()
+        self.padding_sentences()
+        self.split_data()
 
         return {'x_train': self.x_train, 'y_train': self.y_train, 'x_test': self.x_test, 'y_test': self.y_test}
 
-    def _transform_data(self, input_path, paraphrases):
-        # TODO add the paraphrases with the corresponding class in the csv of training
-        pass
+    @staticmethod
+    def transform_data(input_path, paraphrases, language='en'):
+        df = pd.read_csv(input_path)
+        df['Text'] = df['Title'] + '. ' + df['Description']
+        df = df.drop(columns=['Title', 'Description'])
 
+        data_augmentation = {'Class Index':[], 'Text':[]}
+        for parafrase_cycle in paraphrases[language]:
+            for i, paraphrase in enumerate(parafrase_cycle):
+                data_augmentation['Text'].append(paraphrase)
+                data_augmentation['Class Index'].append(df.iloc[i, 0])
 
-    def _load_data(self):
+        data_augmentation_df = pd.DataFrame.from_dict(data_augmentation)
+        df = pd.concat([df, data_augmentation_df], axis=0, join='outer', ignore_index=True)
+        return df
+
+    def load_data(self):
         # Reads the csv file split into
         # sentences (x) and target (y)
+        df = self.data
+        self.x_raw = df['Text'].tolist()
+        self.y = df['Class Index'].tolist()
 
-        df = pd.read_csv(self.data)
-        print(df.head())
-        self.x_raw = df['sentence'].tolist()
-        self.y = df['target'].tolist()
-
-    def _clean_text(self):
+    def clean_text(self):
         # Removes special symbols and just keep
         # words in lower or upper form
 
         self.x_raw = [x.lower() for x in self.x_raw]
         self.x_raw = [re.sub(r'[^A-Za-z]+', ' ', x) for x in self.x_raw]
 
-    def _text_tokenization(self):
+    def text_tokenization(self):
         # Tokenizes each sentence by implementing the nltk tool
         self.x_raw = [word_tokenize(x) for x in self.x_raw]
 
-    def _build_vocabulary(self):
+    def build_vocabulary(self):
         # Builds the vocabulary and keeps the "x" most frequent words
         self.vocabulary = dict()
         fdist = nltk.FreqDist()
@@ -74,7 +83,7 @@ class Preprocessing:
         for idx, word in enumerate(common_words):
             self.vocabulary[word[0]] = (idx + 1)
 
-    def _word_to_idx(self):
+    def word_to_idx(self):
         # By using the dictionary (vocabulary), it is transformed
         # each token into its index based representation
 
@@ -87,7 +96,7 @@ class Preprocessing:
                     temp_sentence.append(self.vocabulary[word])
             self.x_tokenized.append(temp_sentence)
 
-    def _padding_sentences(self):
+    def padding_sentences(self):
         # Each sentence which does not fulfill the required len
         # it's padded with the index 0
 
@@ -101,6 +110,8 @@ class Preprocessing:
 
         self.x_padded = np.array(self.x_padded)
 
-    def _split_data(self):
+    # Since we have train and test files we do not need this
+    # TODO repeat the process for train and test files!
+    def split_data(self):
         self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(self.x_padded, self.y, test_size=0.25,
                                                                                 random_state=42)
