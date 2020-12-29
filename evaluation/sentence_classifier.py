@@ -24,5 +24,6 @@ if __name__ == '__main__':
     preprocessing = Preprocessing(CONFIGURATION['num_words'], CONFIGURATION['seq_len'], df)
     data = preprocessing.preprocess()
 
-    # Training
+    # Training and evaluation
     Run().train(model, data, CONFIGURATION)
+
