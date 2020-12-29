@@ -4,15 +4,16 @@ from unittest import TestCase
 import numpy as np
 from pandas._testing import assert_frame_equal
 
-from evaluation.preprocessing import Preprocessing
+from evaluation.preprocessing import Preprocessing, join_data_and_paraphrases
 
 
 class TestPreprocessing(TestCase):
     def setUp(self) -> None:
         # num_words: selection of most common num_words
-        self.preprocessing = Preprocessing(num_words=10, seq_len=10, input_path='../resources/train.csv')
+        df = pd.read_csv('../resources/train.csv')
+        self.preprocessing = Preprocessing(num_words=10, seq_len=10, df=df)
 
-    def test_transform_data(self):
+    def test_join_data_and_paraphrases(self):
         expected_data_aug_df = '''Class Index,Text
 1,"Title 1. When they go on field trips, they let parents go and help."
 2,Title 2. Here we can only take one bus.
@@ -30,7 +31,7 @@ class TestPreprocessing(TestCase):
                        'de': [['Wenn sie auf Exkursionen gehen, lassen sie die Eltern gehen und helfen.',
                             'Hier können wir nur einen Bus nehmen.']]}
         language = 'en'
-        df = self.preprocessing.transform_data(input_path, paraphrases, language)
+        df = join_data_and_paraphrases(input_path, paraphrases, language)
         assert_frame_equal(expected_data_aug_df, df)
 
     def test_load_data(self):

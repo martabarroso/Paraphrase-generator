@@ -7,10 +7,26 @@ from sklearn.model_selection import train_test_split
 from nltk.tokenize import word_tokenize
 
 
+def join_data_and_paraphrases(input_path, paraphrases, language='en'):
+    df = pd.read_csv(input_path)
+    df['Text'] = df['Title'] + '. ' + df['Description']
+    df = df.drop(columns=['Title', 'Description'])
+
+    data_augmentation = {'Class Index':[], 'Text':[]}
+    for parafrase_cycle in paraphrases[language]:
+        for i, paraphrase in enumerate(parafrase_cycle):
+            data_augmentation['Text'].append(paraphrase)
+            data_augmentation['Class Index'].append(df.iloc[i, 0])
+
+    data_augmentation_df = pd.DataFrame.from_dict(data_augmentation)
+    df = pd.concat([df, data_augmentation_df], axis=0, join='outer', ignore_index=True)
+    return df
+
+
 class Preprocessing:
 
-    def __init__(self, num_words, seq_len, input_path):
-        self.data = input_path
+    def __init__(self, num_words, seq_len, df):
+        self.data = df
         self.num_words = num_words
         self.seq_len = seq_len
         self.vocabulary = None
@@ -34,22 +50,6 @@ class Preprocessing:
         self.split_data()
 
         return {'x_train': self.x_train, 'y_train': self.y_train, 'x_test': self.x_test, 'y_test': self.y_test}
-
-    @staticmethod
-    def transform_data(input_path, paraphrases, language='en'):
-        df = pd.read_csv(input_path)
-        df['Text'] = df['Title'] + '. ' + df['Description']
-        df = df.drop(columns=['Title', 'Description'])
-
-        data_augmentation = {'Class Index':[], 'Text':[]}
-        for parafrase_cycle in paraphrases[language]:
-            for i, paraphrase in enumerate(parafrase_cycle):
-                data_augmentation['Text'].append(paraphrase)
-                data_augmentation['Class Index'].append(df.iloc[i, 0])
-
-        data_augmentation_df = pd.DataFrame.from_dict(data_augmentation)
-        df = pd.concat([df, data_augmentation_df], axis=0, join='outer', ignore_index=True)
-        return df
 
     def load_data(self):
         # Reads the csv file split into
