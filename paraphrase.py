@@ -22,7 +22,7 @@ if __name__ == '__main__':
     if len(args.input) < 4 or (len(args.input) > 4 and (args.input[-4:] != '.txt' or (args.input[-4:] == '.txt' and
                                                                                       len(args.input.split()) != 1))):
         paraphraser = Paraphraser.build(args.method, args.translators)
-        for p in paraphraser.paraphrase(args.input, n_paraphrases=args.n):
+        for p in paraphraser.paraphrase(args.input):
             print(p)
         exit()
 
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     paraphraser = Paraphraser.build(args.method, args.translators)
     with open(args.input, 'r') as f:
         sentences = f.readlines()
-    paraphrases = paraphraser.paraphrase_sentences(sentences, n_paraphrases_per_sentence=args.n)
+    paraphrases = paraphraser.paraphrase_sentences(sentences)
     with open(os.path.join(output_dir, 'paraphrases.json'), 'w') as f:
         json.dump(paraphrases, f, indent=4)
 

@@ -4,10 +4,9 @@ from .constants import BEAM
 import logging
 import ssl
 
+
 class Translator:
     def __init__(self):
-        # TODO: Investigate if this should be a parameter to generate more translations.
-        # Otherwise, 5 is a reasonable default.
         self.beam = BEAM
 
     @staticmethod
@@ -27,12 +26,11 @@ class Translator:
     def directions(self) -> List[Tuple[str, str]]:
         raise NotImplementedError()
 
-    def translate_sentences(self, sentences: Tuple[List[str], str], n_translations: int) -> Tuple[List[List[str]],
-                                                                                                  List[str]]:
+    def translate_sentences(self, sentences: Union[List[str], str]) -> Union[List[str], str]:
         raise NotImplementedError()
 
-    def translate_one_sentence(self, sentence: str, n_translations: int) -> List[str]:
-        raise self.translate([sentence], n_translations)[0]
+    def translate_one_sentence(self, sentence: str) -> str:
+        raise self.translate_sentences([sentence])[0]
 
 
 class FAIRHubTranslator(Translator):
@@ -52,22 +50,9 @@ class FAIRHubTranslator(Translator):
     def directions(self) -> List[Tuple[str, str]]:
         return self._directions
 
-    def translate_sentences(self, sentences: Union[List[str], str], n_translations: int) -> Union[List[List[str]],
-                                                                                                  List[str]]:
-
-        if n_translations != 1:
-            # raise ValueError(f'{self.name} can only translate into one sentence')  # TODO: Investigate how to sample
-            logging.warning(f'{self.name} can only translate into one sentence (repeating translations to simulate it)')
-
+    def translate_sentences(self, sentences: Union[List[str], str]) -> Union[List[str], str]:
         translated = self.system.translate(sentences, beam=self.beam)
-
-        # Hack to simulate that the system is actually returning a sample of sentences. TODO: Fix.
-        if not isinstance(translated, list):
-            return [translated]*n_translations
-        result = []
-        for sentence in translated:
-            result.append([sentence]*n_translations)
-        return result
+        return translated
 
 
 class FAIRPretrainedWMT19EnglishGermanTranslator(FAIRHubTranslator):
