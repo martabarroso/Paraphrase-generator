@@ -6,7 +6,7 @@ import git
 import uuid
 from paraphraser.paraphraser import Paraphraser
 import json
-from paraphraser.utils import init_logging
+from paraphraser.utils import init_logging, deterministic
 import pandas as pd
 
 
@@ -19,6 +19,7 @@ if __name__ == '__main__':
                                                   'path to input (sentence by sentence in a .txt file).',
                         default=os.path.join('input', 'example.txt'))
     args = parser.parse_args()
+    deterministic(42)
     if len(args.input) < 4 or (len(args.input) > 4 and (args.input[-4:] not in ['.txt', '.csv'] or
                                                         (args.input[-4:] == '.txt' and len(args.input.split()) != 1))):
         paraphraser = Paraphraser.build(args.method, args.translators)

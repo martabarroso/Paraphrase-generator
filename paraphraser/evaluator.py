@@ -5,7 +5,7 @@ import nltk
 import pylev
 import os
 from sentence_transformers import SentenceTransformer, util
-from .utils import normalize_spaces_remove_urls
+from .utils import normalize_spaces_remove_urls, deterministic
 
 from evaluation.configuration import CONFIGURATION
 from evaluation.model import TextClassifier
@@ -88,10 +88,11 @@ class InstrinsicEvaluator:
 class ExtrinsicEvaluator:
 
     def evaluate_paraphrases(self, sentences2paraphrases_dict: Dict) -> Dict:
-        input_path = os.path.join('evaluation', 'tweets.csv')
+        deterministic(seed=42)
+        input_path = os.path.join('input', 'tweets.csv')
         df = pd.read_csv(input_path)
         data = Preprocessing(CONFIGURATION['num_words'], CONFIGURATION['seq_len'], df,
                              augment=sentences2paraphrases_dict).preprocess()
         model = TextClassifier(CONFIGURATION)
         res = Run().train(model, data, CONFIGURATION)
-        print(res)
+        return res
