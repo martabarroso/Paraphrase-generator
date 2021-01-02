@@ -6,10 +6,10 @@ import uuid
 import logging
 from paraphraser.utils import init_logging, deterministic
 
-from evaluation.model import TextClassifier
-from evaluation.preprocessing import Preprocessing
-from evaluation.configuration import CONFIGURATION
-from evaluation.run import Run
+from extrinsic_evaluation.model import TextClassifier
+from extrinsic_evaluation.preprocessing import Preprocessing
+from extrinsic_evaluation.configuration import CONFIGURATION
+from extrinsic_evaluation.run import Run
 
 
 if __name__ == '__main__':

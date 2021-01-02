@@ -1,4 +1,3 @@
-import json
 from typing import Dict
 import pandas as pd
 import nltk
@@ -7,10 +6,10 @@ import os
 from sentence_transformers import SentenceTransformer, util
 from .utils import normalize_spaces_remove_urls, deterministic
 
-from evaluation.configuration import CONFIGURATION
-from evaluation.model import TextClassifier
-from evaluation.preprocessing import Preprocessing
-from evaluation.run import Run
+from extrinsic_evaluation.configuration import CONFIGURATION
+from extrinsic_evaluation.model import TextClassifier
+from extrinsic_evaluation.preprocessing import Preprocessing
+from extrinsic_evaluation.run import Run
 
 
 nltk.download('punkt')
