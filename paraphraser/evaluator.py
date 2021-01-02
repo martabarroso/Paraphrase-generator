@@ -88,17 +88,10 @@ class InstrinsicEvaluator:
 class ExtrinsicEvaluator:
 
     def evaluate_paraphrases(self, sentences2paraphrases_dict: Dict) -> Dict:
-        #return {}
-        # TODO: Train ../evaluation/sentence_classifier with paraphrases as data augmentation and compare
-        # the results with the baseline
-
-        #with open('../output/example_output/paraphrases.json') as json_file:
-        #    paraphrases = json.load(json_file)
-
-        # TODO: Convert data into the format: sentence, class
         input_path = os.path.join('evaluation', 'tweets.csv')
-        data = Preprocessing(CONFIGURATION['num_words'], CONFIGURATION['seq_len'], input_path).preprocess()
+        df = pd.read_csv(input_path)
+        data = Preprocessing(CONFIGURATION['num_words'], CONFIGURATION['seq_len'], df,
+                             augment=sentences2paraphrases_dict).preprocess()
         model = TextClassifier(CONFIGURATION)
-        Run().train(model, data, CONFIGURATION)
-
-        raise NotImplementedError()
+        res = Run().train(model, data, CONFIGURATION)
+        print(res)
