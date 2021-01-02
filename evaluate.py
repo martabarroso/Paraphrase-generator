@@ -24,7 +24,7 @@ if __name__ == '__main__':
         sentences2paraphrases_dict = json.load(f)
     results = {}
     for evaluator in evaluators:
-        results[evaluator.name] = evaluator.evaluate_paraphrases(sentences2paraphrases_dict)
+        results[evaluator.__class__.__name__] = evaluator.evaluate_paraphrases(sentences2paraphrases_dict)
     timestamp = time.strftime("%Y-%m-%d-%H%M")
     with open(os.path.join(args.output_path, name + '.json'), 'w') as f:
         json.dump(results, f, indent=4)

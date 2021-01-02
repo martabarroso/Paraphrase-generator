@@ -4,6 +4,8 @@ import torch.nn.functional as F
 
 from torch.utils.data import Dataset, DataLoader
 
+import logging
+
 
 class DatasetMaper(Dataset):
 
@@ -34,6 +36,8 @@ class Run:
 
         # Define optimizer
         optimizer = optim.RMSprop(model.parameters(), lr=params['learning_rate'])
+
+        test_accuracy = 0.0
 
         # Starts training phase
         for epoch in range(params['epochs']):
@@ -68,8 +72,11 @@ class Run:
             # Metrics calculation
             train_accuary = Run.calculate_accuracy(data['y_train'], predictions)
             test_accuracy = Run.calculate_accuracy(data['y_test'], test_predictions)
-            print("Epoch: %d, loss: %.5f, Train accuracy: %.5f, Test accuracy: %.5f" % (
-            epoch + 1, loss.item(), train_accuary, test_accuracy))
+            #logging.info("Epoch: %d, loss: %.5f, Train accuracy: %.5f, Test accuracy: %.5f" % (
+            #epoch + 1, loss.item(), train_accuary, test_accuracy))
+            logging.info("Epoch: %d, loss: %.5f, Train accuracy: %.5f" % (
+                epoch + 1, loss.item(), train_accuary))
+        return {'test_accuracy': test_accuracy}
 
     @staticmethod
     def evaluation(model, loader_test):

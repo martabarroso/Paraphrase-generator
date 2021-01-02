@@ -1,14 +1,19 @@
 import json
-from typing import List, Dict
+from typing import Dict
 import pandas as pd
 import nltk
 import pylev
+import os
 from sentence_transformers import SentenceTransformer, util
+from .utils import normalize_spaces_remove_urls, deterministic
 
 from evaluation.configuration import CONFIGURATION
 from evaluation.model import TextClassifier
 from evaluation.preprocessing import Preprocessing
 from evaluation.run import Run
+
+
+nltk.download('punkt')
 
 
 class Evaluator:
@@ -24,58 +29,70 @@ class InstrinsicEvaluator:
 
     @staticmethod
     def evaluate_individual_sentence(original_sentence, paraphrase) -> Dict:
-        original_sentence_list = original_sentence.split()
-        paraphrase_list = paraphrase.split()
+
+        original_sentence_tokens = nltk.word_tokenize(normalize_spaces_remove_urls(original_sentence))
+        paraphrase_tokens = nltk.word_tokenize(normalize_spaces_remove_urls(paraphrase))
 
         # Bleu score
-        bleu_score = nltk.translate.bleu_score.sentence_bleu([original_sentence], paraphrase)
+        bleu_score = nltk.translate.bleu_score.sentence_bleu([normalize_spaces_remove_urls(original_sentence)],
+                                                             normalize_spaces_remove_urls(paraphrase))
 
-        # cosine similarity
-        model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens')
+        # Sentence embedding cosine similarity
+        model = SentenceTransformer('stsb-distilbert-base')
         emb1 = model.encode(original_sentence)
         emb2 = model.encode(paraphrase)
         cos_sim = util.pytorch_cos_sim(emb1, emb2)
 
         # Levenshtein distance
-        edit_distance = pylev.levenshtein(original_sentence_list, paraphrase_list)
+        edit_distance = pylev.levenshtein(original_sentence_tokens, paraphrase_tokens)
+        length = max(len(original_sentence_tokens), len(paraphrase_tokens))
+        normalized_edit_distance = (length - edit_distance)/length
 
-        metrics = {'bleu_score': bleu_score, 'cosine_similarity': cos_sim.numpy()[0][0], 'edit_distance': edit_distance,
-                   'cos_edit_distance': cos_sim.numpy()[0][0] * edit_distance}
+        # Jaccard
+        jaccard = nltk.jaccard_distance(set(original_sentence_tokens), set(paraphrase_tokens))
+
+        # Normalized edit distance * cosine similarity
+        jaccard_embedding_factor = jaccard*cos_sim.item()
+
+        metrics = {'original_sentence': original_sentence,
+                   'paraphrase': paraphrase, 'bleu_score': bleu_score,
+                   'normalized_original_sentence': normalize_spaces_remove_urls(original_sentence),
+                   'normalized_paraphrase': normalize_spaces_remove_urls(paraphrase),
+                   'embedding_cosine_similarity': cos_sim.item(), 'edit_distance': edit_distance,
+                   'normalized_edit_distance': normalized_edit_distance, 'jaccard': jaccard,
+                   'jaccard_embedding_factor': jaccard_embedding_factor}
 
         return metrics
 
     def evaluate_paraphrases(self, sentences2paraphrases_dict: Dict) -> Dict:
-        results = {'bleu_score': [], 'cosine_similarity': [], 'edit_distance': [], 'cos_edit_distance': [],
-                   'original_sentence': [], 'paraphrase': []}
+        results = {'bleu_score': [], 'embedding_cosine_similarity': [], 'edit_distance': [],
+                   'normalized_edit_distance': [], 'jaccard': [], 'jaccard_embedding_factor': []}
 
+        individual_results = []
         for sentence, paraphrases in sentences2paraphrases_dict.items():
             for paraphrase in paraphrases:
                 result = self.evaluate_individual_sentence(sentence, paraphrase)
+                individual_results.append(result)
                 results['bleu_score'].append(result['bleu_score'])
-                results['cosine_similarity'].append(result['cosine_similarity'])
+                results['embedding_cosine_similarity'].append(result['embedding_cosine_similarity'])
                 results['edit_distance'].append(result['edit_distance'])
-                results['cos_edit_distance'].append(result['cos_edit_distance'])
-                results['original_sentence'].append(sentence)
-                results['paraphrase'].append(paraphrases)
+                results['normalized_edit_distance'].append(result['edit_distance'])
+                results['jaccard'].append(result['jaccard'])
+                results['jaccard_embedding_factor'].append(result['jaccard_embedding_factor'])
 
         df = pd.DataFrame.from_dict(results)
         statistics = df.describe(include='all').to_dict()
-        return statistics
+        return dict(results=individual_results, statistics=statistics)
 
 
 class ExtrinsicEvaluator:
 
-    def evaluate_paraphrases(self, original_sentence: str, generated_paraphrases: List[str]) -> Dict:
-        # TODO: Train ../evaluation/sentence_classifier with paraphrases as data augmentation and compare
-        # the results with the baseline
-
-        with open('../output/example_output/paraphrases.json') as json_file:
-            paraphrases = json.load(json_file)
-
-        # TODO: Convert data into the format: sentence, class
-        input_path = ''
-        data = Preprocessing(CONFIGURATION['num_words'], CONFIGURATION['seq_len'], input_path).preprocess()
+    def evaluate_paraphrases(self, sentences2paraphrases_dict: Dict) -> Dict:
+        deterministic(seed=42)
+        input_path = os.path.join('input', 'tweets.csv')
+        df = pd.read_csv(input_path)
+        data = Preprocessing(CONFIGURATION['num_words'], CONFIGURATION['seq_len'], df,
+                             augment=sentences2paraphrases_dict).preprocess()
         model = TextClassifier(CONFIGURATION)
-        Run().train(model, data, CONFIGURATION)
-
-        raise NotImplementedError()
+        res = Run().train(model, data, CONFIGURATION)
+        return res

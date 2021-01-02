@@ -22,18 +22,18 @@ class Paraphraser:
                 else:
                     self.translators[orig] = {target: {translator_name: translator}}
 
-    def paraphrase(self, sentence: str, n_paraphrases: int) -> List[str]:
-        return self.paraphrase_sentences([sentence], n_paraphrases)[0]
+    def paraphrase(self, sentence: str) -> List[str]:
+        return self.paraphrase_sentences([sentence])[0]
 
-    def _paraphrase_sentences(self, sentences: List[str], n_paraphrases_per_sentence: int) -> List[List[str]]:
+    def _paraphrase_sentences(self, sentences: List[str]) -> List[List[str]]:
         raise NotImplementedError()
 
-    def paraphrase_sentences(self, sentences: List[str], n_paraphrases_per_sentence: int) -> List[List[str]]:
+    def paraphrase_sentences(self, sentences: List[str]) -> List[List[str]]:
         for idx, sentence in enumerate(sentences):
             sentences[idx] = sentence.strip()
-        return self._paraphrase_sentences(sentences, n_paraphrases_per_sentence)
+        return self._paraphrase_sentences(sentences)
 
-    def n_paraphrase_sentences(self, sentences: List[str], n_paraphrases_per_sentence: int,
+    def n_paraphrase_sentences(self, sentences: List[str],
                                language_list: List[str]):
         language_translation_mapping = {}
         i = 1
@@ -46,7 +46,7 @@ class Paraphraser:
                 sentences = language_translation_mapping[orig_lan][-1]
                 translated_sentences = \
                     self.translators[orig_lan][dest_lan][translation_model_names].translate_sentences(
-                        sentences, n_paraphrases_per_sentence)
+                        sentences)
                 translated_sentences = [sentence[0] for sentence in translated_sentences]
                 if dest_lan not in language_translation_mapping:
                     language_translation_mapping[dest_lan] = [translated_sentences]
@@ -80,9 +80,8 @@ class DummyParaphraser:
 
 
 class RoundTripParaphraser(Paraphraser):
-    def _paraphrase_sentences(self, sentences: List[str], n_paraphrases_per_sentence: int) -> Dict[str, List]:
+    def _paraphrase_sentences(self, sentences: List[str]) -> Dict[str, List]:
         # English -> Other language 1 -> English
-        n_translations_per_sentence = n_paraphrases_per_sentence  # TODO: Check
         sentence_dict = OrderedDict()
         for sentence in sentences:
             sentence_dict[sentence] = set()
@@ -91,12 +90,11 @@ class RoundTripParaphraser(Paraphraser):
             first_trip[from_orig_to_other] = deepcopy(sentence_dict)
             for system_name in self.translators[SYSTEM_LANGUAGE][from_orig_to_other]:
                 translated_sentences = \
-                    self.translators[SYSTEM_LANGUAGE][from_orig_to_other][system_name].translate_sentences(sentences,
-                                                                                            n_translations_per_sentence)
+                    self.translators[SYSTEM_LANGUAGE][from_orig_to_other][system_name].translate_sentences(sentences)
                 assert len(translated_sentences) == len(sentences)
                 for idx, translations in enumerate(translated_sentences):
-                    assert len(translations) == n_translations_per_sentence  # TODO: Check, n_translations_per_sentence
-                    first_trip[from_orig_to_other][list(first_trip[from_orig_to_other].keys())[idx]].update(
+                    assert isinstance(translations, str)
+                    first_trip[from_orig_to_other][list(first_trip[from_orig_to_other].keys())[idx]].add(
                         translations)
         result = deepcopy(sentence_dict)
         for from_other_to_orig in first_trip:
@@ -111,17 +109,14 @@ class RoundTripParaphraser(Paraphraser):
 
                 backtranslated_sentences = \
                     self.translators[from_other_to_orig][SYSTEM_LANGUAGE][system_name].translate_sentences(
-                        batched_sentences, n_translations_per_sentence)
+                        batched_sentences)
 
                 for idx, sentence in enumerate(sentences):
                     i, j = batched_idx[idx]
-                    for paraphrasis in backtranslated_sentences[i:j][0]:  # TODO: Check backtranslated_sentences[i:j][0]
+                    for paraphrasis in backtranslated_sentences[i:j]:
                         result[list(result.keys())[idx]].add(paraphrasis)
         for sentence in sentences:
             result[sentence] = list(result[sentence])
-        # TODO: Should n_paraphrases_per_sentence be used to throw an error if less paraphrases are generated?
-        # Should it be used to cut as a maximum number?
-        # I don't think so...
         return result
 
 
