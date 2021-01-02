@@ -23,7 +23,7 @@ if __name__ == '__main__':
                               f'baseline-{timestamp}-{sha[:4]}-{extra_id[:4]}')
 
     os.makedirs(output_dir)
-    init_logging(os.path.join(output_dir, 'paraphrase.log'))
+    init_logging(os.path.join(output_dir, 'baseline.log'))
 
     input_path = os.path.join('input', 'tweets.csv')
     df = pd.read_csv(input_path)
