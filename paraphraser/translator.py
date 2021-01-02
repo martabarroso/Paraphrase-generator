@@ -3,6 +3,7 @@ import torch
 from .constants import BEAM
 import logging
 import ssl
+from .utils import normalize_spaces_remove_urls
 
 
 class Translator:
@@ -26,8 +27,15 @@ class Translator:
     def directions(self) -> List[Tuple[str, str]]:
         raise NotImplementedError()
 
-    def translate_sentences(self, sentences: Union[List[str], str]) -> Union[List[str], str]:
+    def _translate_sentences(self, sentences: Union[List[str], str]) -> Union[List[str], str]:
         raise NotImplementedError()
+
+    def translate_sentences(self, sentences: Union[List[str], str]) -> Union[List[str], str]:
+        if isinstance(sentences, str):
+            sentences = normalize_spaces_remove_urls(sentences)
+        else:
+            sentences = list(map(normalize_spaces_remove_urls, sentences))
+        return self._translate_sentences(sentences)
 
     def translate_one_sentence(self, sentence: str) -> str:
         raise self.translate_sentences([sentence])[0]
@@ -50,7 +58,7 @@ class FAIRHubTranslator(Translator):
     def directions(self) -> List[Tuple[str, str]]:
         return self._directions
 
-    def translate_sentences(self, sentences: Union[List[str], str]) -> Union[List[str], str]:
+    def _translate_sentences(self, sentences: Union[List[str], str]) -> Union[List[str], str]:
         translated = self.system.translate(sentences, beam=self.beam)
         return translated
 
