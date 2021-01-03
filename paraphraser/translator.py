@@ -4,6 +4,14 @@ from .constants import BEAM
 import logging
 import ssl
 from .utils import normalize_spaces_remove_urls
+from glob import glob
+import numpy as np
+import uuid
+import os
+import yaml
+from tacotron_pytorch.src.module import Tacotron
+from tacotron_pytorch.src.symbols import txt2seq
+from tacotron_pytorch.src.utils import AudioProcessor
 
 
 class Translator:
@@ -20,6 +28,10 @@ class Translator:
             return FAIRPretrainedWMT19EnglishRussianTranslator()
         elif translator_name == 'fair-wmt19-ru-en':
             return FAIRPretrainedWMT19RussianEnglishTranslator()
+        elif translator_name == 'silero_asr_en':
+            return SileroASR()
+        elif translator_name == 'tacotron_pytorch':
+            return TacotronPyTorch()
         else:
             raise NotImplementedError(translator_name)
 
@@ -82,3 +94,116 @@ class FAIRPretrainedWMT19RussianEnglishTranslator(FAIRHubTranslator):
     def __init__(self):
         super().__init__('transformer.wmt19.ru-en.single_model', 'fair-wmt19-ru-en', [('ru', 'en')])
 
+
+class SileroASR(Translator):
+
+    def __init__(self, remove_tmp: bool = True):
+        super().__init__()
+        ssl._create_default_https_context = ssl._create_unverified_context
+
+        cuda = torch.cuda.is_available()
+
+        self.device = torch.device('cuda') if cuda else torch.device('cpu')
+        if not cuda:
+            logging.warning('Running on CPU')
+
+        self.model, self.decoder, self.utils = torch.hub.load(repo_or_dir='snakers4/silero-models',
+                                                              model='silero_stt',
+                                                              language='en',  # also available 'de', 'es'
+                                                              device=self.device)
+        self.model.eval()
+
+        self.name = 'silero_asr_en'
+        self._directions = [('en_speech', 'en')]
+
+        self.remove_tmp = remove_tmp
+
+    @property
+    def directions(self) -> List[Tuple[str, str]]:
+        return self._directions
+
+    def _translate_sentences(self, sentences: Union[List[str], str]) -> Union[List[str], str]:
+        (read_batch, split_into_batches,
+         read_audio, prepare_model_input) = self.utils  # see function signature for details
+
+        def flatten(l):
+            flat = []
+            for e in l:
+                flat.extend(e)
+            return flat
+
+        speech_files = glob(sentences) if isinstance(sentences, str) else flatten(
+            [glob(sentence) for sentence in sentences])
+
+        batches = split_into_batches(speech_files, batch_size=10)
+        input_ = prepare_model_input(read_batch(batches[0]), device=self.device)
+
+        output = self.model(input_)
+        res = []
+        for example in output:
+            res.append(self.decoder(example.cpu()))
+
+        if self.remove_tmp:
+            for speech_file in speech_files:
+                os.remove(speech_file)
+        if isinstance(sentences, str):
+            res = res[0]
+        return res
+
+
+class TacotronPyTorch(Translator):
+    def __init__(self):
+        super().__init__()
+        config = os.path.join('tacotron_pytorch', 'config', 'config.yaml')
+        self.config = yaml.load(open(config, 'r'))
+        checkpoint = os.path.join('tacotron_pytorch', 'ckpt', 'checkpoint_step138000.pth')
+        cuda = torch.cuda.is_available()
+
+        self.device = torch.device('cuda') if cuda else torch.device('cpu')
+        if not cuda:
+            logging.warning('Running on CPU')
+        else:
+            self.model.to('cuda')
+        self.model = self.load_ckpt(self.config, checkpoint, self.device)
+
+        self.name = 'tacotron_pytorch'
+        self._directions = [('en', 'en_speech')]
+
+    @property
+    def directions(self) -> List[Tuple[str, str]]:
+        return self._directions
+
+    def _translate_sentences(self, sentences: Union[List[str], str]) -> Union[List[str], str]:
+        one_sentence = False
+        if isinstance(sentences, str):
+            one_sentence = True
+            sentences = [sentences]
+        os.makedirs('tmp', exist_ok=True)
+        res = []
+        for text in sentences:
+            seq = np.asarray(txt2seq(text))
+            seq = torch.from_numpy(seq).unsqueeze(0)
+            # Decode
+            with torch.no_grad():
+                mel, spec, attn = self.model(seq)
+            # Generate wav file
+            ap = AudioProcessor(**self.config['audio'])
+            wav = ap.inv_spectrogram(spec[0].numpy().T)
+            filename = uuid.uuid4().hex
+            filename = os.path.join('tmp', f"{filename}.wav")
+            ap.save_wav(wav, filename)
+            res.append(filename)
+        if one_sentence:
+            res = res[0]
+        return res
+
+    @staticmethod
+    def load_ckpt(config, ckpt_path, device):
+        ckpt = torch.load(ckpt_path, map_location=device)
+        model = Tacotron(**config['model']['tacotron'])
+        model.load_state_dict(ckpt['state_dict'])
+        # This yeilds the best performance, not sure why
+        # model.mel_decoder.eval()
+        model.encoder.eval()
+        model.postnet.eval()
+        return model
