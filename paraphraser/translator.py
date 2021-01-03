@@ -9,6 +9,10 @@ import numpy as np
 from scipy.io.wavfile import write
 import uuid
 import os
+import yaml
+from tacotron_pytorch.src.module import Tacotron
+from tacotron_pytorch.src.symbols import txt2seq
+from tacotron_pytorch.src.utils import AudioProcessor
 
 
 class Translator:
@@ -29,6 +33,8 @@ class Translator:
             return NVIDIATTS()
         elif translator_name == 'silero_asr_en':
             return SileroASR()
+        elif translator_name == 'tacotron_pytorch':
+            return TacotronPyTorch()
         else:
             raise NotImplementedError(translator_name)
 
@@ -228,6 +234,63 @@ class NVIDIATTS(Translator):
             translated = translated[0]
         return translated
 
+class TacotronPyTorch(Translator):
+    def __init__(self):
+        super().__init__()
+        config = os.path.join('tacotron_pytorch', 'config', 'config.yaml')
+        self.config = yaml.load(open(config, 'r'))
+        checkpoint = os.path.join('tacotron_pytorch', 'ckpt', 'checkpoint_step138000.pth')
+        cuda = torch.cuda.is_available()
+
+        self.device = torch.device('cuda') if cuda else torch.device('cpu')
+        if not cuda:
+            logging.warning('Running on CPU')
+        else:
+            self.model.to('cuda')
+        self.model = self.load_ckpt(self.config, checkpoint, self.device)
+
+        self.name = 'tacotron_pytorch'
+        self._directions = [('en', 'en_speech')]
+
+    @property
+    def directions(self) -> List[Tuple[str, str]]:
+        return self._directions
+
+    def _translate_sentences(self, sentences: Union[List[str], str]) -> Union[List[str], str]:
+        one_sentence = False
+        if isinstance(sentences, str):
+            one_sentence = True
+            sentences = [sentences]
+        os.makedirs('tmp', exist_ok=True)
+        res = []
+        for text in sentences:
+            seq = np.asarray(txt2seq(text))
+            seq = torch.from_numpy(seq).unsqueeze(0)
+            # Decode
+            with torch.no_grad():
+                mel, spec, attn = self.model(seq)
+            # Generate wav file
+            ap = AudioProcessor(**self.config['audio'])
+            wav = ap.inv_spectrogram(spec[0].numpy().T)
+            filename = uuid.uuid4().hex
+            filename = os.path.join('tmp', f"{filename}.wav")
+            ap.save_wav(wav, filename)
+            res.append(filename)
+        if one_sentence:
+            res = res[0]
+        return res
+
+    @staticmethod
+    def load_ckpt(config, ckpt_path, device):
+        ckpt = torch.load(ckpt_path, map_location=device)
+        model = Tacotron(**config['model']['tacotron'])
+        model.load_state_dict(ckpt['state_dict'])
+        # This yeilds the best performance, not sure why
+        # model.mel_decoder.eval()
+        model.encoder.eval()
+        model.postnet.eval()
+        return model
+
 
 def speech2text():
 
@@ -253,8 +316,10 @@ def speech2text():
         print(decoder(example.cpu()))
 
 def text2speech():
+
     device = "cpu"
     import torch
+    torch.nn.Module.dump_patches = True
     #waveglow = torch.hub.load('nvidia/DeepLearningExamples:torchhub', 'nvidia_waveglow', map_location=torch.device('cpu'))
     #waveglow = waveglow.remove_weightnorm(waveglow)
     #waveglow = waveglow.to('cuda')
@@ -275,7 +340,8 @@ def text2speech():
 
     # Unwrap the DistributedDataParallel module
     # module.layer -> layer
-    state_dict = {key.replace("module.", ""): value for key, value in checkpoint["state_dict"].items()}
+    #state_dict = {key.replace("module.", ""): value for key, value in checkpoint["state_dict"].items()}
+    state_dict = checkpoint["state_dict"]
 
     # Apply the state dict to the model
     tacotron2.load_state_dict(state_dict)
@@ -285,6 +351,8 @@ def text2speech():
     #sequence = torch.from_numpy(sequence).to(device='cuda', dtype=torch.int64)
     sequence = torch.from_numpy(sequence).to(dtype=torch.int64)
 
+    waveglow = torch.load('/home/jordiarmigol/Downloads/waveglow_256channels_ljs_v2.pt',  map_location="cpu")['model']
+
     # run the models
     with torch.no_grad():
         _, mel, _, _ = tacotron2.infer(sequence)
@@ -292,3 +360,6 @@ def text2speech():
     audio_numpy = audio[0].data.cpu().numpy()
     rate = 22050
     write("audio.wav", rate, audio_numpy)
+
+if __name__ == '__main__':
+    text2speech()
