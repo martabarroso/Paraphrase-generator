@@ -3,25 +3,31 @@
 # Roundtrip:
 
 # German
-python paraphrase.py --method roundtrip --translators fair-wmt19-en-de fair-wmt19-de-en --input input/tweets.csv
+echo "german"
+python paraphrase.py --method roundtrip --translators fair-wmt19-en-de fair-wmt19-de-en --input input/tweets_.csv
 
 # Russian
-python paraphrase.py --method roundtrip --translators fair-wmt19-en-ru fair-wmt19-ru-en --input input/tweets.csv
+echo "russian"
+python paraphrase.py --method roundtrip --translators fair-wmt19-en-ru fair-wmt19-ru-en --input input/tweets_.csv
 
 # Tamil
-python paraphrase.py --method roundtrip --translators fair-wmt20-en-ta fair-wmt20-ta-en --input input/tweets.csv
+echo "tamil"
+python paraphrase.py --method roundtrip --translators fair-wmt20-en-ta fair-wmt20-ta-en --input input/tweets_.csv
 
 # Speech
-python paraphrase.py --method roundtrip --translators silero_asr_en tacotron_pytorch --input input/tweets.csv
+echo "speech"
+python paraphrase.py --method roundtrip --translators silero_asr_en tacotron_pytorch --input input/tweets_.csv
 
 # All
+echo "all"
 python paraphrase.py --method roundtrip --translators fair-wmt19-en-de fair-wmt19-de-en fair-wmt19-en-ru \
-       fair-wmt19-ru-en fair-wmt20-en-ta fair-wmt20-ta-en silero_asr_en tacotron_pytorch --input input/tweets.csv
+       fair-wmt19-ru-en fair-wmt20-en-ta fair-wmt20-ta-en silero_asr_en tacotron_pytorch --input input/tweets_.csv
 
 ####
 
 # N-cycles:
 
 # All
+echo "ncycles"
 python paraphrase.py --method ncycles --translators fair-wmt19-en-de fair-wmt19-de-en fair-wmt19-en-ru \
-       fair-wmt19-ru-en fair-wmt20-en-ta fair-wmt20-ta-en silero_asr_en tacotron_pytorch --input input/tweets.csv
+       fair-wmt19-ru-en fair-wmt20-en-ta fair-wmt20-ta-en silero_asr_en tacotron_pytorch --input input/tweets_.csv
