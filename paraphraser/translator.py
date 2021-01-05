@@ -174,11 +174,11 @@ class TacotronPyTorch(Translator):
         cuda = torch.cuda.is_available()
 
         self.device = torch.device('cuda') if cuda else torch.device('cpu')
+        self.model = self.load_ckpt(self.config, checkpoint, self.device)
         if not cuda:
             logging.warning('Running on CPU')
         else:
             self.model.to('cuda')
-        self.model = self.load_ckpt(self.config, checkpoint, self.device)
 
         self.name = 'tacotron_pytorch'
         self._directions = [('en', 'en_speech')]
