@@ -9,6 +9,7 @@ import numpy as np
 import uuid
 import os
 import yaml
+from transformers import MarianTokenizer, MarianMTModel
 from tacotron_pytorch.src.module import Tacotron
 from tacotron_pytorch.src.symbols import txt2seq
 from tacotron_pytorch.src.utils import AudioProcessor
@@ -36,6 +37,13 @@ class Translator:
             return SileroASR()
         elif translator_name == 'tacotron_pytorch':
             return TacotronPyTorch()
+        elif translator_name.startswith('marian'):
+            split = translator_name.split('-')
+            assert len(split) == 3
+            assert split[0] == 'marian'
+            assert len(split[1]) == 2
+            assert len(split[2]) == 2
+            return MarianHFTranslator(src_lang=split[1], tgt_lang=split[2])
         else:
             raise NotImplementedError(translator_name)
 
@@ -221,3 +229,29 @@ class TacotronPyTorch(Translator):
         model.encoder.eval()
         model.postnet.eval()
         return model
+
+
+class MarianHFTranslator(Translator):
+    def __init__(self, src_lang: str, tgt_lang: str):
+        model_name = f'Helsinki-NLP/opus-mt-{src_lang}-{tgt_lang}'
+        self.tokenizer = MarianTokenizer.from_pretrained(model_name)
+        self.model = MarianMTModel.from_pretrained(model_name)
+
+        self._directions = [(src_lang, tgt_lang)]
+
+    @property
+    def directions(self) -> List[Tuple[str, str]]:
+        return self._directions
+
+    def _translate_sentences(self, sentences: Union[List[str], str]) -> Union[List[str], str]:
+        one_sentence = False
+        if isinstance(sentences, str):
+            one_sentence = True
+            sentences = [sentences]
+        os.makedirs('tmp', exist_ok=True)
+        res = []
+        translated = self.model.generate(**self.tokenizer.prepare_seq2seq_batch(sentences, return_tensors="pt"))
+        tgt_text = [self.tokenizer.decode(t, skip_special_tokens=True) for t in translated]
+        if one_sentence:
+            res = res[0]
+        return res
