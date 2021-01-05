@@ -28,6 +28,10 @@ class Translator:
             return FAIRPretrainedWMT19EnglishRussianTranslator()
         elif translator_name == 'fair-wmt19-ru-en':
             return FAIRPretrainedWMT19RussianEnglishTranslator()
+        elif translator_name == 'fair-wmt20-en-ta':
+            return FAIRPretrainedWMT20EnglishTamilTranslator()
+        elif translator_name == 'fair-wmt20-ta-en':
+            return FAIRPretrainedWMT20TamilEnglishTranslator()
         elif translator_name == 'silero_asr_en':
             return SileroASR()
         elif translator_name == 'tacotron_pytorch':
@@ -93,6 +97,16 @@ class FAIRPretrainedWMT19EnglishRussianTranslator(FAIRHubTranslator):
 class FAIRPretrainedWMT19RussianEnglishTranslator(FAIRHubTranslator):
     def __init__(self):
         super().__init__('transformer.wmt19.ru-en.single_model', 'fair-wmt19-ru-en', [('ru', 'en')])
+
+
+class FAIRPretrainedWMT20EnglishTamilTranslator(FAIRHubTranslator):
+    def __init__(self):
+        super().__init__('transformer.wmt20.en-ta', 'fair-wmt20-en-ta', [('en', 'ta')])
+
+
+class FAIRPretrainedWMT20TamilEnglishTranslator(FAIRHubTranslator):
+    def __init__(self):
+        super().__init__('transformer.wmt20.ta-en', 'fair-wmt20-ta-en', [('ta', 'en')])
 
 
 class SileroASR(Translator):
