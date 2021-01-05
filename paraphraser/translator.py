@@ -249,9 +249,8 @@ class MarianHFTranslator(Translator):
             one_sentence = True
             sentences = [sentences]
         os.makedirs('tmp', exist_ok=True)
-        res = []
         translated = self.model.generate(**self.tokenizer.prepare_seq2seq_batch(sentences, return_tensors="pt"))
         tgt_text = [self.tokenizer.decode(t, skip_special_tokens=True) for t in translated]
         if one_sentence:
-            res = res[0]
-        return res
+            tgt_text = tgt_text[0]
+        return tgt_text
