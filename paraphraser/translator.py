@@ -216,7 +216,7 @@ class TacotronPyTorch(Translator):
         ckpt = torch.load(ckpt_path, map_location=device)
         model = Tacotron(**config['model']['tacotron'])
         model.load_state_dict(ckpt['state_dict'])
-        # This yeilds the best performance, not sure why
+        # This yields the best performance, not sure why
         # model.mel_decoder.eval()
         model.encoder.eval()
         model.postnet.eval()
