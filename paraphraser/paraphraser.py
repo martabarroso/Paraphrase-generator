@@ -58,7 +58,7 @@ class Paraphraser:
                 translated_sentences = \
                     self.translators[lang_path_orig][from_orig_to_other][system_name].translate_sentences(sentences)
                 assert len(translated_sentences) == len(sentences)
-                assert list(first_trip[from_orig_to_other].keys()) ==len(translated_sentences)
+                assert len(list(first_trip[from_orig_to_other].keys())) == len(translated_sentences)
                 for idx, translations in enumerate(translated_sentences):
                     assert isinstance(translations, str)
                     first_trip[from_orig_to_other][list(first_trip[from_orig_to_other].keys())[idx]].add(
