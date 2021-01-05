@@ -50,7 +50,7 @@ class InstrinsicEvaluator:
         # Jaccard
         jaccard = nltk.jaccard_distance(set(original_sentence_tokens), set(paraphrase_tokens))
 
-        # Normalized edit distance * cosine similarity
+        # Jaccard * cosine similarity
         jaccard_embedding_factor = jaccard*cos_sim.item()
 
         metrics = {'original_sentence': original_sentence,
