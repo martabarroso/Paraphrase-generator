@@ -12,7 +12,7 @@ import pandas as pd
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('Paraphraser')
-    parser.add_argument('--method', default='roundtrip', choices=['roundtrip', 'intermediate', '2cycles', 'dummy'])
+    parser.add_argument('--method', default='roundtrip', choices=['roundtrip', 'intermediate', 'ncycles', 'dummy'])
     parser.add_argument('--translators', type=str, help='Translator names separated by whitespaces.', nargs='+',
                         default=[])
     parser.add_argument('--input', type=str, help='Either sentence to translate, between quotes (""), or'
