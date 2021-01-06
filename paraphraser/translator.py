@@ -223,11 +223,12 @@ class TacotronPyTorch(Translator):
         res = []
         for text in sentences:
             seq = np.asarray(txt2seq(text))
-            seq = torch.from_numpy(seq).unsqueeze(0)
+            seq = torch.from_numpy(seq).unsqueeze(0).to(self.device)
             # Decode
             with torch.no_grad():
                 mel, spec, attn = self.model(seq)
             # Generate wav file
+            spec = spec.cpu()
             ap = AudioProcessor(**self.config['audio'])
             wav = ap.inv_spectrogram(spec[0].numpy().T)
             filename = uuid.uuid4().hex
@@ -252,6 +253,7 @@ class TacotronPyTorch(Translator):
 
 class MarianHFTranslator(Translator):
     def __init__(self, src_lang: str, tgt_lang: str):
+        super(MarianHFTranslator).__init__()
         model_name = f'Helsinki-NLP/opus-mt-{src_lang}-{tgt_lang}'
         self.tokenizer = MarianTokenizer.from_pretrained(model_name)
         self.model = MarianMTModel.from_pretrained(model_name)
