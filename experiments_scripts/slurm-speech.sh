@@ -7,4 +7,4 @@
 
 source ~/.bashrc
 
-bash experiments_scripts/russian.sh
+bash experiments_scripts/speech.sh
