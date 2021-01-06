@@ -5,6 +5,7 @@ from collections import OrderedDict
 from copy import deepcopy
 import logging
 import datetime
+from ordered_set import OrderedSet
 
 
 class Paraphraser:
@@ -50,6 +51,13 @@ class Paraphraser:
 
         logging.info(f'Translating from {lang_path_orig} into {lang_path_dest} via {lang_path_via}')
 
+        sentences_ = list(OrderedSet(sentences))
+        if len(sentences_) != sentences:
+            logging.warning('Ignoring duplicated sentences')
+            sentences = sentences_
+        else:
+            del sentences_
+
         sentence_dict = OrderedDict()
         for sentence in sentences:
             sentence_dict[sentence] = set()
@@ -63,6 +71,7 @@ class Paraphraser:
                 translated_sentences = \
                     self.translators[lang_path_orig][from_orig_to_other][system_name].translate_sentences(sentences)
                 assert len(translated_sentences) == len(sentences)
+                # The following assertion holds because there we ignore duplicated sentences in the original input
                 assert len(list(first_trip[from_orig_to_other].keys())) == len(translated_sentences)
                 for idx, translations in enumerate(translated_sentences):
                     assert isinstance(translations, str)
