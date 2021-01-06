@@ -258,6 +258,14 @@ class MarianHFTranslator(Translator):
         self.tokenizer = MarianTokenizer.from_pretrained(model_name)
         self.model = MarianMTModel.from_pretrained(model_name)
 
+        cuda = torch.cuda.is_available()
+
+        self.device = torch.device('cuda') if cuda else torch.device('cpu')
+        if not cuda:
+            logging.warning('Running on CPU')
+        else:
+            self.model.to('cuda')
+
         self._directions = [(src_lang, tgt_lang)]
 
     @property
@@ -269,9 +277,9 @@ class MarianHFTranslator(Translator):
         if isinstance(sentences, str):
             one_sentence = True
             sentences = [sentences]
-        os.makedirs('tmp', exist_ok=True)
-        translated = self.model.generate(**self.tokenizer.prepare_seq2seq_batch(sentences, return_tensors="pt"))
-        tgt_text = [self.tokenizer.decode(t, skip_special_tokens=True) for t in translated]
+        to_translate = self.tokenizer.prepare_seq2seq_batch(sentences, return_tensors="pt").to(self.device)
+        translated = self.model.generate(**to_translate)
+        tgt_text = [self.tokenizer.decode(t.cpu(), skip_special_tokens=True) for t in translated]
         if one_sentence:
             tgt_text = tgt_text[0]
         return tgt_text
