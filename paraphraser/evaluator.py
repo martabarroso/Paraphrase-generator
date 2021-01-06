@@ -26,8 +26,10 @@ class Evaluator:
 
 class InstrinsicEvaluator:
 
-    @staticmethod
-    def evaluate_individual_sentence(original_sentence, paraphrase) -> Dict:
+    def __init__(self):
+        self.model = SentenceTransformer('stsb-distilbert-base')
+
+    def evaluate_individual_sentence(self, original_sentence, paraphrase) -> Dict:
 
         original_sentence_tokens = nltk.word_tokenize(normalize_spaces_remove_urls(original_sentence))
         paraphrase_tokens = nltk.word_tokenize(normalize_spaces_remove_urls(paraphrase))
@@ -37,9 +39,8 @@ class InstrinsicEvaluator:
                                                              normalize_spaces_remove_urls(paraphrase))
 
         # Sentence embedding cosine similarity
-        model = SentenceTransformer('stsb-distilbert-base')
-        emb1 = model.encode(original_sentence)
-        emb2 = model.encode(paraphrase)
+        emb1 = self.model.encode(original_sentence)
+        emb2 = self.model.encode(paraphrase)
         cos_sim = util.pytorch_cos_sim(emb1, emb2)
 
         # Levenshtein distance
