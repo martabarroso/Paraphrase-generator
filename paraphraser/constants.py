@@ -1,2 +1,3 @@
 SYSTEM_LANGUAGE = 'en'
 BEAM = 5
+BATCH = 16
