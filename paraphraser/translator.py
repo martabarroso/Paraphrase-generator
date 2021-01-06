@@ -77,7 +77,7 @@ class Translator:
         else:
             res = self._translate_sentences(sentences)
         t1 = datetime.datetime.now().timestamp()
-        logging.info(f'Building: Elapsed {t1 - t0}s')
+        logging.info(f'Translated: Elapsed {t1 - t0}s')
         return res
 
     def translate_one_sentence(self, sentence: str) -> str:
