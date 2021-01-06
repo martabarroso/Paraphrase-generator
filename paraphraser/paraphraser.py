@@ -3,6 +3,8 @@ from typing import List, Dict
 from .constants import SYSTEM_LANGUAGE
 from collections import OrderedDict
 from copy import deepcopy
+import logging
+import datetime
 
 
 class Paraphraser:
@@ -46,10 +48,13 @@ class Paraphraser:
         # exist (e.g., English -> Other language via EN-DE translator 1, and Other language to English via DE-EN
         # translator 3), and it handles batched translation.
 
+        logging.info(f'Translating from {lang_path_orig} into {lang_path_dest} via {lang_path_via}')
+
         sentence_dict = OrderedDict()
         for sentence in sentences:
             sentence_dict[sentence] = set()
         first_trip = {}
+        logging.info(f'Translating from {lang_path_orig} into {lang_path_via}')
         for from_orig_to_other in self.translators[lang_path_orig]:
             if lang_path_via != 'all' and from_orig_to_other != lang_path_via:
                 continue
@@ -64,6 +69,7 @@ class Paraphraser:
                     first_trip[from_orig_to_other][list(first_trip[from_orig_to_other].keys())[idx]].add(
                         translations)
         result = deepcopy(sentence_dict)
+        logging.info(f'Translating from {lang_path_via} into {lang_path_dest}')
         for from_other_to_orig in first_trip:
             for system_name in self.translators[from_other_to_orig][lang_path_dest]:
                 batched_sentences = []
@@ -88,16 +94,20 @@ class Paraphraser:
 
     @staticmethod
     def build(method: str, translators: List[str]):
+        logging.info('Building paraphraser...')
+        t0 = datetime.datetime.now().timestamp()
         if method == 'dummy':
-            import logging
             logging.warning('Using DUMMY paraphraser')
-            return DummyParaphraser()
+            paraphraser = DummyParaphraser()
         elif method == 'roundtrip':
-            return RoundTripParaphraser(translators)
+            paraphraser = RoundTripParaphraser(translators)
         elif method == 'intermediate':
-            return IntermediateParaphraser(translators)
+            paraphraser = IntermediateParaphraser(translators)
         else:
-            return NCyclesParaphraser(translators)
+            paraphraser = NCyclesParaphraser(translators)
+        t1 = datetime.datetime.now().timestamp()
+        logging.info(f'Building: Elapsed {t1 - t0}s')
+        return paraphraser
 
 
 class DummyParaphraser:
