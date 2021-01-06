@@ -6,8 +6,10 @@ import git
 import uuid
 from paraphraser.paraphraser import Paraphraser
 import json
+import logging
 from paraphraser.utils import init_logging, deterministic
 import pandas as pd
+import datetime
 
 
 if __name__ == '__main__':
@@ -20,11 +22,16 @@ if __name__ == '__main__':
                         default=os.path.join('input', 'example.txt'))
     args = parser.parse_args()
     deterministic(42)
+
+    t0 = datetime.datetime.now().timestamp()
+
     if len(args.input) < 4 or (len(args.input) > 4 and (args.input[-4:] not in ['.txt', '.csv'] or
                                                         (args.input[-4:] == '.txt' and len(args.input.split()) != 1))):
         paraphraser = Paraphraser.build(args.method, args.translators)
         for p in paraphraser.paraphrase(args.input):
             print(p)
+        t1 = datetime.datetime.now().timestamp()
+        print(f'Elapsed {t1 - t0}s')
         exit()
 
     timestamp = time.strftime("%Y-%m-%d-%H%M")
@@ -52,3 +59,7 @@ if __name__ == '__main__':
 
     with open(os.path.join(output_dir, 'args.json'), 'w') as f:
         json.dump(vars(args), f, indent=4)
+
+    t1 = datetime.datetime.now().timestamp()
+    logging.info(f'Total: Elapsed {t1 - t0}s')
+
