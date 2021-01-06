@@ -1,6 +1,6 @@
 from typing import List, Tuple, Union
 import torch
-from .constants import BEAM
+from .constants import BEAM, BATCH
 import logging
 import ssl
 from .utils import normalize_spaces_remove_urls
@@ -13,6 +13,8 @@ from transformers import MarianTokenizer, MarianMTModel
 from tacotron_pytorch.src.module import Tacotron
 from tacotron_pytorch.src.symbols import txt2seq
 from tacotron_pytorch.src.utils import AudioProcessor
+from tqdm import tqdm
+import datetime
 
 
 class Translator:
@@ -55,11 +57,28 @@ class Translator:
         raise NotImplementedError()
 
     def translate_sentences(self, sentences: Union[List[str], str]) -> Union[List[str], str]:
+        logging.info('Translating...')
+        t0 = datetime.datetime.now().timestamp()
         if isinstance(sentences, str):
             sentences = normalize_spaces_remove_urls(sentences)
         else:
             sentences = list(map(normalize_spaces_remove_urls, sentences))
-        return self._translate_sentences(sentences)
+
+        def chunks(lst, n):
+            """Yield successive n-sized chunks from lst."""
+            # https://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks
+            for i in range(0, len(lst), n):
+                yield lst[i:i + n]
+
+        if len(sentences) > BATCH:
+            res = []
+            for sentence_batch in tqdm(list(chunks(sentences, BATCH))):
+                res.extend(self._translate_sentences(sentence_batch))
+        else:
+            res = self._translate_sentences(sentences)
+        t1 = datetime.datetime.now().timestamp()
+        logging.info(f'Building: Elapsed {t1 - t0}s')
+        return res
 
     def translate_one_sentence(self, sentence: str) -> str:
         raise self.translate_sentences([sentence])[0]
