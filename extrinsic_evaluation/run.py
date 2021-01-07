@@ -89,7 +89,7 @@ class Run:
         # Starst evaluation phase
         with torch.no_grad():
             for x_batch, y_batch in loader_test:
-                y_pred = model(x_batch)
+                y_pred = model(x_batch.long())
                 predictions += list(y_pred.detach().numpy())
         return predictions
 
