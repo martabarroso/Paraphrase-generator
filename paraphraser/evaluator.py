@@ -19,13 +19,13 @@ nltk.download('punkt')
 class Evaluator:
     @staticmethod
     def get_all_evaluators():
-        return [InstrinsicEvaluator(), ExtrinsicEvaluator()]
+        return [IntrinsicEvaluator(), ExtrinsicEvaluator()]
 
     def evaluate_paraphrases(self, sentences2paraphrases_dict: Dict) -> Dict:
         raise NotImplementedError()
 
 
-class InstrinsicEvaluator:
+class IntrinsicEvaluator:
 
     def __init__(self):
         super().__init__()
