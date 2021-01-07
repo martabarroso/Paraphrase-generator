@@ -1,0 +1,8 @@
+{
+    "method": "roundtrip",
+    "translators": [
+        "marian-en-de",
+        "marian-de-en"
+    ],
+    "input": "input/tweets.csv"
+}
