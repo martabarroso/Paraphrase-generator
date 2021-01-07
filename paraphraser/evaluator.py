@@ -10,6 +10,7 @@ from extrinsic_evaluation.configuration import CONFIGURATION
 from extrinsic_evaluation.model import TextClassifier
 from extrinsic_evaluation.preprocessing import Preprocessing
 from extrinsic_evaluation.run import Run
+import logging
 
 
 nltk.download('punkt')
@@ -96,4 +97,5 @@ class ExtrinsicEvaluator:
                              augment=sentences2paraphrases_dict).preprocess()
         model = TextClassifier(CONFIGURATION)
         res = Run().train(model, data, CONFIGURATION)
+        logging.info(res)
         return res
