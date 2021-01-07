@@ -10,6 +10,7 @@ from extrinsic_evaluation.model import TextClassifier
 from extrinsic_evaluation.preprocessing import Preprocessing
 from extrinsic_evaluation.configuration import CONFIGURATION
 from extrinsic_evaluation.run import Run
+import json
 
 
 if __name__ == '__main__':
@@ -32,3 +33,5 @@ if __name__ == '__main__':
     model = TextClassifier(CONFIGURATION)
     res = Run().train(model, data, CONFIGURATION)
     logging.info(res)
+    with open(os.path.join(output_dir, 'baseline-eval.json'), 'w') as f:
+        json.dump(res, f, indent=4)

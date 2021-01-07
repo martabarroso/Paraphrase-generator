@@ -1,0 +1,830 @@
+INTRINSIC DATAFRAME
+
+                                  name  ... jaccard_embedding_factor
+0  eval-2021-01-07-1806-6468-0875.json  ...               0.32+-0.17
+1  eval-2021-01-07-1822-6468-0a32.json  ...               0.43+-0.13
+2  eval-2021-01-07-1839-6468-b662.json  ...               0.45+-0.13
+3  eval-2021-01-07-1856-6468-2ec9.json  ...               0.46+-0.16
+
+[4 rows x 7 columns]
+
+INTRINSIC LATEX
+\begin{tabular}{llllllll}
+\toprule
+{} &                                 name &  bleu\_score & embedding\_cosine\_similarity & edit\_distance & normalized\_edit\_distance &     jaccard & jaccard\_embedding\_factor \\
+\midrule
+0 &  eval-2021-01-07-1806-6468-0875.json &  0.77+-0.17 &                  0.88+-0.11 &   6.18+-18.87 &              6.18+-18.87 &  0.38+-0.22 &               0.32+-0.17 \\
+1 &  eval-2021-01-07-1822-6468-0a32.json &  0.50+-0.20 &                  0.70+-0.19 &  12.37+-28.90 &             12.37+-28.90 &  0.64+-0.17 &               0.43+-0.13 \\
+2 &  eval-2021-01-07-1839-6468-b662.json &  0.58+-0.20 &                  0.78+-0.15 &  12.36+-30.87 &             12.36+-30.87 &  0.59+-0.18 &               0.45+-0.13 \\
+3 &  eval-2021-01-07-1856-6468-2ec9.json &  0.65+-0.20 &                  0.71+-0.16 &    9.97+-5.50 &               9.97+-5.50 &  0.67+-0.21 &               0.46+-0.16 \\
+\bottomrule
+\end{tabular}
+
+
+EXTRINSIC DATAFRAME
+
+   test_accuracy                                 name
+0       0.734769                   baseline-eval.json
+1       0.660714  eval-2021-01-07-1806-6468-0875.json
+2       0.678046  eval-2021-01-07-1822-6468-0a32.json
+3       0.686450  eval-2021-01-07-1839-6468-b662.json
+4       0.748424  eval-2021-01-07-1856-6468-2ec9.json
+
+EXTRINSIC LATEX
+\begin{tabular}{lrl}
+\toprule
+{} &  test\_accuracy &                                 name \\
+\midrule
+0 &       0.734769 &                   baseline-eval.json \\
+1 &       0.660714 &  eval-2021-01-07-1806-6468-0875.json \\
+2 &       0.678046 &  eval-2021-01-07-1822-6468-0a32.json \\
+3 &       0.686450 &  eval-2021-01-07-1839-6468-b662.json \\
+4 &       0.748424 &  eval-2021-01-07-1856-6468-2ec9.json \\
+\bottomrule
+\end{tabular}
+
+
+SAMPLE
+{'eval-2021-01-07-1806-6468-0875.json': [{'bleu_score': 0.7685833878994072,
+                                          'edit_distance': 5,
+                                          'embedding_cosine_similarity': 0.8778359889984131,
+                                          'jaccard': 0.5,
+                                          'jaccard_embedding_factor': 0.43891799449920654,
+                                          'normalized_edit_distance': 0.6428571428571429,
+                                          'normalized_original_sentence': 'Three '
+                                                                          'Homes '
+                                                                          'Demolished '
+                                                                          'in '
+                                                                          'Unrecognized '
+                                                                          'Arab '
+                                                                          'Village '
+                                                                          '- '
+                                                                          'International '
+                                                                          'Middle '
+                                                                          'East '
+                                                                          'Media '
+                                                                          'Center',
+                                          'normalized_paraphrase': 'Three '
+                                                                   'houses '
+                                                                   'destroyed '
+                                                                   'in the '
+                                                                   'unrecognized '
+                                                                   'Arab '
+                                                                   'village - '
+                                                                   'International '
+                                                                   'Middle '
+                                                                   'East Media '
+                                                                   'Center',
+                                          'original_sentence': 'Three Homes '
+                                                               'Demolished in '
+                                                               'Unrecognized '
+                                                               'Arab Village - '
+                                                               'International '
+                                                               'Middle East '
+                                                               'Media Center '
+                                                               'http://t.co/ik8m4Yi9T4',
+                                          'paraphrase': 'Three houses '
+                                                        'destroyed in the '
+                                                        'unrecognized Arab '
+                                                        'village - '
+                                                        'International Middle '
+                                                        'East Media Center'},
+                                         {'bleu_score': 0.48579715564434944,
+                                          'edit_distance': 5,
+                                          'embedding_cosine_similarity': 0.6341002583503723,
+                                          'jaccard': 0.8333333333333334,
+                                          'jaccard_embedding_factor': 0.5284168819586437,
+                                          'normalized_edit_distance': 0.2857142857142857,
+                                          'normalized_original_sentence': 'Reid '
+                                                                          'Lake '
+                                                                          'fire '
+                                                                          'prompts '
+                                                                          'campground '
+                                                                          'evacuation '
+                                                                          'order',
+                                          'normalized_paraphrase': 'Reid Lake '
+                                                                   'Fire '
+                                                                   'Requires '
+                                                                   'Warehouse '
+                                                                   'Evacuation '
+                                                                   'Order',
+                                          'original_sentence': 'Reid Lake fire '
+                                                               'prompts '
+                                                               'campground '
+                                                               'evacuation '
+                                                               'order '
+                                                               'http://t.co/jBODKM6rBU',
+                                          'paraphrase': 'Reid Lake Fire '
+                                                        'Requires Warehouse '
+                                                        'Evacuation Order'},
+                                         {'bleu_score': 1.0,
+                                          'edit_distance': 0,
+                                          'embedding_cosine_similarity': 0.9431705474853516,
+                                          'jaccard': 0.0,
+                                          'jaccard_embedding_factor': 0.0,
+                                          'normalized_edit_distance': 1.0,
+                                          'normalized_original_sentence': 'FAAN '
+                                                                          'orders '
+                                                                          'evacuation '
+                                                                          'of '
+                                                                          'abandoned '
+                                                                          'aircraft '
+                                                                          'at '
+                                                                          'MMA '
+                                                                          'via '
+                                                                          '@todayng',
+                                          'normalized_paraphrase': 'FAAN '
+                                                                   'orders '
+                                                                   'evacuation '
+                                                                   'of '
+                                                                   'abandoned '
+                                                                   'aircraft '
+                                                                   'at MMA via '
+                                                                   '@todayng',
+                                          'original_sentence': 'FAAN orders '
+                                                               'evacuation of '
+                                                               'abandoned '
+                                                               'aircraft at '
+                                                               'MMA '
+                                                               'http://t.co/dEvYbnVXGQ '
+                                                               'via @todayng',
+                                          'paraphrase': 'FAAN orders '
+                                                        'evacuation of '
+                                                        'abandoned aircraft at '
+                                                        'MMA via @todayng'},
+                                         {'bleu_score': 0.7059238182900627,
+                                          'edit_distance': 3,
+                                          'embedding_cosine_similarity': 0.8821713924407959,
+                                          'jaccard': 0.38461538461538464,
+                                          'jaccard_embedding_factor': 0.3392966894003061,
+                                          'normalized_edit_distance': 0.7272727272727273,
+                                          'normalized_original_sentence': 'Ngata '
+                                                                          'on '
+                                                                          'injury '
+                                                                          'list '
+                                                                          'at '
+                                                                          'start '
+                                                                          'of '
+                                                                          'practice '
+                                                                          'for '
+                                                                          'Lions',
+                                          'normalized_paraphrase': 'Ngata on '
+                                                                   'injury '
+                                                                   'list at '
+                                                                   'the '
+                                                                   'beginning '
+                                                                   'of '
+                                                                   'practice '
+                                                                   'for lions',
+                                          'original_sentence': 'Ngata on '
+                                                               'injury list at '
+                                                               'start of '
+                                                               'practice for '
+                                                               'Lions '
+                                                               'http://t.co/Z16DtoQHhG',
+                                          'paraphrase': 'Ngata on injury list '
+                                                        'at the beginning of '
+                                                        'practice for lions'},
+                                         {'bleu_score': 0.9209675043377803,
+                                          'edit_distance': 4,
+                                          'embedding_cosine_similarity': 0.9045467972755432,
+                                          'jaccard': 0.125,
+                                          'jaccard_embedding_factor': 0.1130683496594429,
+                                          'normalized_edit_distance': 0.7333333333333333,
+                                          'normalized_original_sentence': 'BREAKING: '
+                                                                          '#ISIS '
+                                                                          'claims '
+                                                                          'responsibility '
+                                                                          'for '
+                                                                          'mosque '
+                                                                          'attack '
+                                                                          'in '
+                                                                          'Saudi '
+                                                                          'Arabia '
+                                                                          'that '
+                                                                          'killed '
+                                                                          '13',
+                                          'normalized_paraphrase': 'BREAKING: '
+                                                                   '#ISIS '
+                                                                   'claims the '
+                                                                   'responsibility '
+                                                                   'for mosque '
+                                                                   'attack '
+                                                                   'killed in '
+                                                                   'Saudi '
+                                                                   'Arabia 13',
+                                          'original_sentence': 'BREAKING: '
+                                                               '#ISIS claims '
+                                                               'responsibility '
+                                                               'for mosque '
+                                                               'attack in '
+                                                               'Saudi Arabia '
+                                                               'that killed 13 '
+                                                               'http://t.co/VZ640XOSwj '
+                                                               'http://t.co/m2HpnOAK8b',
+                                          'paraphrase': 'BREAKING: #ISIS '
+                                                        'claims the '
+                                                        'responsibility for '
+                                                        'mosque attack killed '
+                                                        'in Saudi Arabia 13'}],
+ 'eval-2021-01-07-1822-6468-0a32.json': [{'bleu_score': 0.5858048651560167,
+                                          'edit_distance': 8,
+                                          'embedding_cosine_similarity': 0.7437863349914551,
+                                          'jaccard': 0.5833333333333334,
+                                          'jaccard_embedding_factor': 0.4338753620783488,
+                                          'normalized_edit_distance': 0.5294117647058824,
+                                          'normalized_original_sentence': 'I '
+                                                                          'liked '
+                                                                          'a '
+                                                                          '@YouTube '
+                                                                          'video '
+                                                                          'Spyro '
+                                                                          '3 '
+                                                                          'Texture '
+                                                                          'Hacks '
+                                                                          '- '
+                                                                          "'Desolate "
+                                                                          "Gardens' "
+                                                                          '[In-game]',
+                                          'normalized_paraphrase': 'I liked a '
+                                                                   'slide that '
+                                                                   'asked 3 '
+                                                                   'Texture '
+                                                                   "Hacks--'Deserved "
+                                                                   "Gardens' "
+                                                                   '[In- Game]',
+                                          'original_sentence': 'I liked a '
+                                                               '@YouTube video '
+                                                               'http://t.co/M9YdA5k6jf '
+                                                               'Spyro 3 '
+                                                               'Texture Hacks '
+                                                               "- 'Desolate "
+                                                               "Gardens' "
+                                                               '[In-game]',
+                                          'paraphrase': 'I liked a slide that '
+                                                        'asked 3 Texture '
+                                                        "Hacks--'Deserved "
+                                                        "Gardens' [In- Game]"},
+                                         {'bleu_score': 0.2672093652480826,
+                                          'edit_distance': 13,
+                                          'embedding_cosine_similarity': 0.742274284362793,
+                                          'jaccard': 0.5833333333333334,
+                                          'jaccard_embedding_factor': 0.4329933325449626,
+                                          'normalized_edit_distance': 0.38095238095238093,
+                                          'normalized_original_sentence': 'After '
+                                                                          'having '
+                                                                          'two '
+                                                                          'cans '
+                                                                          'explode '
+                                                                          'I '
+                                                                          'wanted '
+                                                                          'to '
+                                                                          'drink '
+                                                                          'the '
+                                                                          'rest '
+                                                                          'but '
+                                                                          'these '
+                                                                          '... '
+                                                                          '(Kaldi '
+                                                                          'Coffee '
+                                                                          'Stout) '
+                                                                          '#photo',
+                                          'normalized_paraphrase': 'After two '
+                                                                   "cans, I'd "
+                                                                   'like to '
+                                                                   'drink the '
+                                                                   'rest, '
+                                                                   'but...',
+                                          'original_sentence': 'After having '
+                                                               'two cans '
+                                                               'explode I '
+                                                               'wanted to '
+                                                               'drink the rest '
+                                                               'but these ... '
+                                                               '(Kaldi Coffee '
+                                                               'Stout) '
+                                                               'http://t.co/u6isXv2F3V '
+                                                               '#photo',
+                                          'paraphrase': "After two cans, I'd "
+                                                        'like to drink the '
+                                                        'rest, but...'},
+                                         {'bleu_score': 0.5196976456992545,
+                                          'edit_distance': 8,
+                                          'embedding_cosine_similarity': 0.6028154492378235,
+                                          'jaccard': 0.7058823529411765,
+                                          'jaccard_embedding_factor': 0.4255167876972872,
+                                          'normalized_edit_distance': 0.3333333333333333,
+                                          'normalized_original_sentence': 'Dont '
+                                                                          'even '
+                                                                          'come '
+                                                                          'if '
+                                                                          'you '
+                                                                          'worried '
+                                                                          'about '
+                                                                          'curfew '
+                                                                          '#BC19',
+                                          'normalized_paraphrase': "Don't come "
+                                                                   'here just '
+                                                                   'because '
+                                                                   "you're "
+                                                                   'worried '
+                                                                   'about '
+                                                                   'curfew.',
+                                          'original_sentence': 'Dont even come '
+                                                               'if you worried '
+                                                               'about curfew '
+                                                               '#BC19',
+                                          'paraphrase': "Don't come here just "
+                                                        "because you're "
+                                                        'worried about '
+                                                        'curfew.'},
+                                         {'bleu_score': 0.3525376296251754,
+                                          'edit_distance': 15,
+                                          'embedding_cosine_similarity': 0.43130993843078613,
+                                          'jaccard': 0.8181818181818182,
+                                          'jaccard_embedding_factor': 0.35288994962518866,
+                                          'normalized_edit_distance': 0.16666666666666666,
+                                          'normalized_original_sentence': 'Absurdly '
+                                                                          'Ridiculous '
+                                                                          'Men\x89Ûªs '
+                                                                          '#Fashion '
+                                                                          'To '
+                                                                          'Demolish '
+                                                                          'You '
+                                                                          '#Manhood.',
+                                          'normalized_paraphrase': 'You '
+                                                                   'ridiculous '
+                                                                   'men who '
+                                                                   'are not '
+                                                                   'entitled '
+                                                                   'to them '
+                                                                   'are in the '
+                                                                   'spirit of '
+                                                                   'Demolish '
+                                                                   'You '
+                                                                   'Manhood.',
+                                          'original_sentence': 'Absurdly '
+                                                               'Ridiculous '
+                                                               'Men\x89Ûªs '
+                                                               '#Fashion To '
+                                                               'Demolish You '
+                                                               '#Manhood. '
+                                                               'http://t.co/vTP8i8QLEn',
+                                          'paraphrase': 'You ridiculous men '
+                                                        'who are not entitled '
+                                                        'to them are in the '
+                                                        'spirit of Demolish '
+                                                        'You Manhood.'},
+                                         {'bleu_score': 0.6144873440732989,
+                                          'edit_distance': 12,
+                                          'embedding_cosine_similarity': 0.8547176718711853,
+                                          'jaccard': 0.64,
+                                          'jaccard_embedding_factor': 0.5470193099975587,
+                                          'normalized_edit_distance': 0.45454545454545453,
+                                          'normalized_original_sentence': 'Vince '
+                                                                          'McMahon '
+                                                                          'once '
+                                                                          'again '
+                                                                          'a '
+                                                                          'billionaire: '
+                                                                          'I '
+                                                                          'remember '
+                                                                          'reading '
+                                                                          'a '
+                                                                          'deluge '
+                                                                          'of '
+                                                                          'posts '
+                                                                          'about '
+                                                                          'Vince '
+                                                                          'McMahon '
+                                                                          'losing '
+                                                                          '$350 '
+                                                                          'm...',
+                                          'normalized_paraphrase': 'Vince '
+                                                                   'McMahon is '
+                                                                   'another '
+                                                                   'billionaire, '
+                                                                   'and I '
+                                                                   'remember '
+                                                                   'reading '
+                                                                   'that Vince '
+                                                                   'McMahon '
+                                                                   'lost 350 '
+                                                                   'm...',
+                                          'original_sentence': 'Vince McMahon '
+                                                               'once again a '
+                                                               'billionaire: I '
+                                                               'remember '
+                                                               'reading a '
+                                                               'deluge of '
+                                                               'posts about '
+                                                               'Vince McMahon '
+                                                               'losing $350 '
+                                                               'm... '
+                                                               'http://t.co/ko0oz3RYFg',
+                                          'paraphrase': 'Vince McMahon is '
+                                                        'another billionaire, '
+                                                        'and I remember '
+                                                        'reading that Vince '
+                                                        'McMahon lost 350 '
+                                                        'm...'}],
+ 'eval-2021-01-07-1839-6468-b662.json': [{'bleu_score': 0.587477014729021,
+                                          'edit_distance': 8,
+                                          'embedding_cosine_similarity': 0.7708380222320557,
+                                          'jaccard': 0.7777777777777778,
+                                          'jaccard_embedding_factor': 0.5995406839582655,
+                                          'normalized_edit_distance': 0.3333333333333333,
+                                          'normalized_original_sentence': 'ALERT! '
+                                                                          'Sandy '
+                                                                          'Hook '
+                                                                          'Elementary '
+                                                                          'School '
+                                                                          'Evacuated '
+                                                                          'After '
+                                                                          '\x89Û÷Bomb '
+                                                                          'Threat\x89Ûª',
+                                          'normalized_paraphrase': 'ALERT! '
+                                                                   'Sandy '
+                                                                   'Hook, '
+                                                                   'primary '
+                                                                   'school '
+                                                                   'evacuated '
+                                                                   'after the '
+                                                                   'bomb '
+                                                                   'threat.a',
+                                          'original_sentence': 'ALERT! Sandy '
+                                                               'Hook '
+                                                               'Elementary '
+                                                               'School '
+                                                               'Evacuated '
+                                                               'After '
+                                                               '\x89Û÷Bomb '
+                                                               'Threat\x89Ûª '
+                                                               'http://t.co/LwLexXjUS8',
+                                          'paraphrase': 'ALERT! Sandy Hook, '
+                                                        'primary school '
+                                                        'evacuated after the '
+                                                        'bomb threat.a'},
+                                         {'bleu_score': 0.7058509962246655,
+                                          'edit_distance': 6,
+                                          'embedding_cosine_similarity': 0.8778889775276184,
+                                          'jaccard': 0.391304347826087,
+                                          'jaccard_embedding_factor': 0.34352177381515503,
+                                          'normalized_edit_distance': 0.7272727272727273,
+                                          'normalized_original_sentence': 'National '
+                                                                          'Briefing '
+                                                                          '| '
+                                                                          'West: '
+                                                                          'California: '
+                                                                          'Spring '
+                                                                          'Oil '
+                                                                          'Spill '
+                                                                          'Estimate '
+                                                                          'Grows: '
+                                                                          'Documents '
+                                                                          'released '
+                                                                          'on '
+                                                                          'Wednesday '
+                                                                          'd... '
+                                                                          '(NYT)',
+                                          'normalized_paraphrase': 'National '
+                                                                   'briefing: '
+                                                                   'West: '
+                                                                   'California: '
+                                                                   'Spring Oil '
+                                                                   'Assessments: '
+                                                                   'Documents '
+                                                                   'issued on '
+                                                                   'Wednesday '
+                                                                   'd... (NYT)',
+                                          'original_sentence': 'National '
+                                                               'Briefing | '
+                                                               'West: '
+                                                               'California: '
+                                                               'Spring Oil '
+                                                               'Spill Estimate '
+                                                               'Grows: '
+                                                               'Documents '
+                                                               'released on '
+                                                               'Wednesday d... '
+                                                               'http://t.co/hTxAi05y7B '
+                                                               '(NYT)',
+                                          'paraphrase': 'National briefing: '
+                                                        'West: California: '
+                                                        'Spring Oil '
+                                                        'Assessments: '
+                                                        'Documents issued on '
+                                                        'Wednesday d... (NYT)'},
+                                         {'bleu_score': 0.10612258583440298,
+                                          'edit_distance': 12,
+                                          'embedding_cosine_similarity': 0.2401193529367447,
+                                          'jaccard': 0.9473684210526315,
+                                          'jaccard_embedding_factor': 0.22748149225586337,
+                                          'normalized_edit_distance': 0.07692307692307693,
+                                          'normalized_original_sentence': 'REPORTED: '
+                                                                          'HIT '
+                                                                          '&amp; '
+                                                                          'RUN-IN '
+                                                                          'ROADWAY-PROPERTY '
+                                                                          'DAMAGE '
+                                                                          'at '
+                                                                          '15901 '
+                                                                          'STATESVILLE '
+                                                                          'RD',
+                                          'normalized_paraphrase': 'COMMUNICATION: '
+                                                                   'FURTHER '
+                                                                   'WORK ON '
+                                                                   'ROAD '
+                                                                   'TRAFFIC '
+                                                                   'TRAFFIC',
+                                          'original_sentence': 'REPORTED: HIT '
+                                                               '&amp; RUN-IN '
+                                                               'ROADWAY-PROPERTY '
+                                                               'DAMAGE at '
+                                                               '15901 '
+                                                               'STATESVILLE RD',
+                                          'paraphrase': 'COMMUNICATION: '
+                                                        'FURTHER WORK ON ROAD '
+                                                        'TRAFFIC TRAFFIC'},
+                                         {'bleu_score': 0.30731118314372485,
+                                          'edit_distance': 18,
+                                          'embedding_cosine_similarity': 0.7405917048454285,
+                                          'jaccard': 0.6785714285714286,
+                                          'jaccard_embedding_factor': 0.5025443711451122,
+                                          'normalized_edit_distance': 0.3076923076923077,
+                                          'normalized_original_sentence': 'Death '
+                                                                          'on '
+                                                                          'Railway '
+                                                                          'track: '
+                                                                          'Why '
+                                                                          'rains '
+                                                                          'cannot '
+                                                                          'take '
+                                                                          'all '
+                                                                          'the '
+                                                                          'blame?: '
+                                                                          'Derailment '
+                                                                          'is '
+                                                                          'not '
+                                                                          'very '
+                                                                          'common. '
+                                                                          'Last '
+                                                                          'year '
+                                                                          'less '
+                                                                          'th...',
+                                          'normalized_paraphrase': 'Death on '
+                                                                   'the '
+                                                                   'Railroad: '
+                                                                   "Why can't "
+                                                                   'the rain '
+                                                                   'take all '
+                                                                   'the blame?',
+                                          'original_sentence': 'Death on '
+                                                               'Railway track: '
+                                                               'Why rains '
+                                                               'cannot take '
+                                                               'all the '
+                                                               'blame?: '
+                                                               'Derailment is '
+                                                               'not very '
+                                                               'common. Last '
+                                                               'year less '
+                                                               'th... '
+                                                               'http://t.co/jdkQC12tid',
+                                          'paraphrase': 'Death on the '
+                                                        "Railroad: Why can't "
+                                                        'the rain take all the '
+                                                        'blame?'},
+                                         {'bleu_score': 0.32361223561705327,
+                                          'edit_distance': 18,
+                                          'embedding_cosine_similarity': 0.8014377951622009,
+                                          'jaccard': 0.9285714285714286,
+                                          'jaccard_embedding_factor': 0.7441922383649009,
+                                          'normalized_edit_distance': 0.21739130434782608,
+                                          'normalized_original_sentence': 'You '
+                                                                          'Bitches '
+                                                                          'Walking '
+                                                                          'Around '
+                                                                          'Like '
+                                                                          'Yall '
+                                                                          'Hot '
+                                                                          'Shit '
+                                                                          '&amp; '
+                                                                          'Got '
+                                                                          'Bed '
+                                                                          'Bugs '
+                                                                          '&amp; '
+                                                                          'You '
+                                                                          'Burning '
+                                                                          '????',
+                                          'normalized_paraphrase': 'You '
+                                                                   'bitches '
+                                                                   'walk '
+                                                                   'around '
+                                                                   'like Yell, '
+                                                                   'hot shit '
+                                                                   'and '
+                                                                   'bedbugs, '
+                                                                   'and you '
+                                                                   'burn???????',
+                                          'original_sentence': 'You Bitches '
+                                                               'Walking Around '
+                                                               'Like Yall Hot '
+                                                               'Shit &amp; Got '
+                                                               'Bed Bugs &amp; '
+                                                               'You Burning '
+                                                               '????',
+                                          'paraphrase': 'You bitches walk '
+                                                        'around like Yell, hot '
+                                                        'shit and bedbugs, and '
+                                                        'you burn???????'}],
+ 'eval-2021-01-07-1856-6468-2ec9.json': [{'bleu_score': 0.5869410805288182,
+                                          'edit_distance': 3,
+                                          'embedding_cosine_similarity': 0.5138139724731445,
+                                          'jaccard': 1.0,
+                                          'jaccard_embedding_factor': 0.5138139724731445,
+                                          'normalized_edit_distance': 0.0,
+                                          'normalized_original_sentence': 'Butt '
+                                                                          'Trauma '
+                                                                          'Extraordinaire',
+                                          'normalized_paraphrase': 'but trauma '
+                                                                   'extraordinary',
+                                          'original_sentence': 'Butt Trauma '
+                                                               'Extraordinaire',
+                                          'paraphrase': 'but trauma '
+                                                        'extraordinary'},
+                                         {'bleu_score': 0.6852385167769852,
+                                          'edit_distance': 10,
+                                          'embedding_cosine_similarity': 0.7785801887512207,
+                                          'jaccard': 0.75,
+                                          'jaccard_embedding_factor': 0.5839351415634155,
+                                          'normalized_edit_distance': 0.4117647058823529,
+                                          'normalized_original_sentence': 'A '
+                                                                          'Pyrotechnic '
+                                                                          'Artwork '
+                                                                          'by '
+                                                                          'Cai '
+                                                                          'Guo-Qiang '
+                                                                          'Explodes '
+                                                                          'into '
+                                                                          'a '
+                                                                          'Blossom '
+                                                                          'on '
+                                                                          'the '
+                                                                          'Steps '
+                                                                          'of '
+                                                                          'the '
+                                                                          'Philadelphia...',
+                                          'normalized_paraphrase': 'a '
+                                                                   'pyrotechnic '
+                                                                   'artwork by '
+                                                                   'kgo king '
+                                                                   'explodes '
+                                                                   'into a '
+                                                                   'blossom on '
+                                                                   'the steps '
+                                                                   'of the '
+                                                                   'philadelphia',
+                                          'original_sentence': 'A Pyrotechnic '
+                                                               'Artwork by Cai '
+                                                               'Guo-Qiang '
+                                                               'Explodes into '
+                                                               'a Blossom on '
+                                                               'the Steps of '
+                                                               'the '
+                                                               'Philadelphia... '
+                                                               'http://t.co/orOvZFsKU2',
+                                          'paraphrase': 'a pyrotechnic artwork '
+                                                        'by kgo king explodes '
+                                                        'into a blossom on the '
+                                                        'steps of the '
+                                                        'philadelphia'},
+                                         {'bleu_score': 0.8931440071693292,
+                                          'edit_distance': 1,
+                                          'embedding_cosine_similarity': 0.9265456199645996,
+                                          'jaccard': 0.2222222222222222,
+                                          'jaccard_embedding_factor': 0.2058990266587999,
+                                          'normalized_edit_distance': 0.8888888888888888,
+                                          'normalized_original_sentence': 'each '
+                                                                          'time '
+                                                                          'we '
+                                                                          'try '
+                                                                          'we '
+                                                                          'always '
+                                                                          'end '
+                                                                          'up '
+                                                                          'sinking',
+                                          'normalized_paraphrase': 'each time '
+                                                                   'we try we '
+                                                                   'always end '
+                                                                   'opt '
+                                                                   'sinking',
+                                          'original_sentence': 'each time we '
+                                                               'try we always '
+                                                               'end up sinking',
+                                          'paraphrase': 'each time we try we '
+                                                        'always end opt '
+                                                        'sinking'},
+                                         {'bleu_score': 0.5877059328850274,
+                                          'edit_distance': 12,
+                                          'embedding_cosine_similarity': 0.6360505223274231,
+                                          'jaccard': 0.6296296296296297,
+                                          'jaccard_embedding_factor': 0.4004762547987479,
+                                          'normalized_edit_distance': 0.42857142857142855,
+                                          'normalized_original_sentence': '@MNPDNashville '
+                                                                          '@MontalbanoNY '
+                                                                          'sadly '
+                                                                          'suicide '
+                                                                          'by '
+                                                                          'cop. '
+                                                                          'Wed '
+                                                                          '2PM '
+                                                                          '@ '
+                                                                          'Dollar '
+                                                                          'movie '
+                                                                          'does '
+                                                                          'not '
+                                                                          'a '
+                                                                          'mass '
+                                                                          'murder '
+                                                                          'make.',
+                                          'normalized_paraphrase': 'met this '
+                                                                   'ville '
+                                                                   'monal '
+                                                                   'banetty '
+                                                                   'sadly '
+                                                                   'suicide by '
+                                                                   'cop wed '
+                                                                   'tunton '
+                                                                   'thoughou a '
+                                                                   'movie does '
+                                                                   'not a mass '
+                                                                   'murder '
+                                                                   'mate',
+                                          'original_sentence': '@MNPDNashville '
+                                                               '@MontalbanoNY '
+                                                               'sadly suicide '
+                                                               'by cop. Wed '
+                                                               '2PM @ Dollar '
+                                                               'movie does not '
+                                                               'a mass murder '
+                                                               'make.',
+                                          'paraphrase': 'met this ville monal '
+                                                        'banetty sadly suicide '
+                                                        'by cop wed tunton '
+                                                        'thoughou a movie does '
+                                                        'not a mass murder '
+                                                        'mate'},
+                                         {'bleu_score': 0.5708989161814861,
+                                          'edit_distance': 16,
+                                          'embedding_cosine_similarity': 0.6460232734680176,
+                                          'jaccard': 0.7777777777777778,
+                                          'jaccard_embedding_factor': 0.5024625460306803,
+                                          'normalized_edit_distance': 0.3333333333333333,
+                                          'normalized_original_sentence': '@Kinder_Morgan '
+                                                                          "can'twon't "
+                                                                          'tell '
+                                                                          '@cityofkamloops '
+                                                                          'how '
+                                                                          "they'd "
+                                                                          'respond '
+                                                                          'to '
+                                                                          'an '
+                                                                          'oil '
+                                                                          'spill. '
+                                                                          'Trust '
+                                                                          'them? '
+                                                                          'See '
+                                                                          'Sec '
+                                                                          '4.2 '
+                                                                          '#Kamloops',
+                                          'normalized_paraphrase': 'kindermorgan '
+                                                                   'cananton '
+                                                                   'tetelll '
+                                                                   'city c '
+                                                                   'lops how '
+                                                                   'they '
+                                                                   'respond to '
+                                                                   'an oil '
+                                                                   'spill '
+                                                                   'trust them '
+                                                                   'se sick '
+                                                                   'four point '
+                                                                   'two camlps',
+                                          'original_sentence': '@Kinder_Morgan '
+                                                               "can'twon't "
+                                                               'tell '
+                                                               '@cityofkamloops '
+                                                               "how they'd "
+                                                               'respond to an '
+                                                               'oil spill. '
+                                                               'Trust them? '
+                                                               'See Sec 4.2 '
+                                                               '#Kamloops '
+                                                               'http://t.co/TA6N9sZyfP',
+                                          'paraphrase': 'kindermorgan cananton '
+                                                        'tetelll city c lops '
+                                                        'how they respond to '
+                                                        'an oil spill trust '
+                                                        'them se sick four '
+                                                        'point two camlps'}]}
