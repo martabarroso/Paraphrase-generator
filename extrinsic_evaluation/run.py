@@ -49,11 +49,7 @@ class Run:
                 y_batch = y_batch.type(torch.FloatTensor)
 
                 # Feed the model
-                if not isinstance(x_batch, torch.Tensor):
-                    #x_batch = torch.stack(x_batch, dim=-1)
-                    print('skipping')
-                    continue
-                y_pred = model(x_batch)
+                y_pred = model(x_batch.long())
 
 
                 # Loss calculation
