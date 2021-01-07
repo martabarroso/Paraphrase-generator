@@ -1,0 +1,11 @@
+INFO:root:Building paraphraser...
+INFO:root:Building: Elapsed 2.753499984741211s
+INFO:root:Translating from en into en via en_speech
+WARNING:root:Ignoring duplicated sentences
+INFO:root:Translating from en into en_speech
+INFO:root:Translating...
+INFO:root:Translated: Elapsed 27352.670897960663s
+INFO:root:Translating from en_speech into en
+INFO:root:Translating...
+INFO:root:Translated: Elapsed 1019.1564280986786s
+INFO:root:Total: Elapsed 28377.080327033997s
