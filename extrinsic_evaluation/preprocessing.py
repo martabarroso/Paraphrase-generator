@@ -52,6 +52,12 @@ class Preprocessing:
         self.build_vocabulary()
         self.word_to_idx()
         self.padding_sentences()
+
+        idx_train = np.array(list(range(len(self.x_train))))
+        np.random.shuffle(idx_train)
+        self.x_train = self.x_train[idx_train]
+        self.y_train = list(np.array(self.y_train)[idx_train])
+
         # self.split_data()
 
         return {'x_train': self.x_train, 'y_train': self.y_train, 'x_test': self.x_test, 'y_test': self.y_test}
