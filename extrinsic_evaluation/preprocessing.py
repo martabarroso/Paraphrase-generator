@@ -144,6 +144,8 @@ class Preprocessing:
                 sentence.insert(len(sentence), pad_idx)
             x_train_padded.append(sentence)
 
+        x_train_padded = [e for e in x_train_padded if len(e) == self.seq_len]  # Hack. Only 12 out of 11415. TODO: Fix.
+
         self.x_train = np.array(x_train_padded)
 
         x_test_padded = list()
@@ -152,5 +154,7 @@ class Preprocessing:
             while len(sentence) < self.seq_len:
                 sentence.insert(len(sentence), pad_idx)
             x_test_padded.append(sentence)
+
+        x_test_padded = [e for e in x_test_padded if len(e) == self.seq_len]  # Hack. Only 12 out of 11415. TODO: Fix.
 
         self.x_test = np.array(x_test_padded)

@@ -23,7 +23,8 @@ if __name__ == '__main__':
     with open(os.path.join(output, 'paraphrases.json'), 'r') as f:
         sentences2paraphrases_dict = json.load(f)
     results = {}
-    for evaluator in evaluators:
+    from paraphraser.evaluator import ExtrinsicEvaluator
+    for evaluator in [ExtrinsicEvaluator()] :#evaluators:
         results[evaluator.__class__.__name__] = evaluator.evaluate_paraphrases(sentences2paraphrases_dict)
     timestamp = time.strftime("%Y-%m-%d-%H%M")
     with open(os.path.join(args.output_path, name + '.json'), 'w') as f:

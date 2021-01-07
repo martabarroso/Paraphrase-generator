@@ -176,7 +176,7 @@ class SileroASR(Translator):
         speech_files = glob(sentences) if isinstance(sentences, str) else flatten(
             [glob(sentence) for sentence in sentences])
 
-        batches = split_into_batches(speech_files, batch_size=10)
+        batches = split_into_batches(speech_files, batch_size=BATCH)
         input_ = prepare_model_input(read_batch(batches[0]), device=self.device)
 
         output = self.model(input_)
@@ -223,7 +223,7 @@ class TacotronPyTorch(Translator):
         res = []
         for text in sentences:
             seq = np.asarray(txt2seq(text))
-            seq = torch.from_numpy(seq).unsqueeze(0).to(self.device)
+            seq = torch.from_numpy(seq).unsqueeze(0).long().to(self.device)
             # Decode
             with torch.no_grad():
                 mel, spec, attn = self.model(seq)

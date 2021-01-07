@@ -27,6 +27,7 @@ class Evaluator:
 class InstrinsicEvaluator:
 
     def __init__(self):
+        super().__init__()
         self.model = SentenceTransformer('stsb-distilbert-base')
 
     def evaluate_individual_sentence(self, original_sentence, paraphrase) -> Dict:
