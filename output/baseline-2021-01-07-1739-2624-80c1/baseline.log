@@ -1,0 +1,11 @@
+INFO:root:Epoch: 1, loss: 0.71688, Train accuracy: 0.56139
+INFO:root:Epoch: 2, loss: 0.59625, Train accuracy: 0.67192
+INFO:root:Epoch: 3, loss: 0.68456, Train accuracy: 0.71168
+INFO:root:Epoch: 4, loss: 0.63253, Train accuracy: 0.74321
+INFO:root:Epoch: 5, loss: 0.61183, Train accuracy: 0.77632
+INFO:root:Epoch: 6, loss: 0.55511, Train accuracy: 0.78893
+INFO:root:Epoch: 7, loss: 1.08324, Train accuracy: 0.81415
+INFO:root:Epoch: 8, loss: 0.85338, Train accuracy: 0.82133
+INFO:root:Epoch: 9, loss: 0.90489, Train accuracy: 0.82904
+INFO:root:Epoch: 10, loss: 0.29364, Train accuracy: 0.82939
+INFO:root:{'test_accuracy': 0.7347689075630253}

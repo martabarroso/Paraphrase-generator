@@ -1,0 +1,17 @@
+INFO:root:Load pretrained SentenceTransformer: stsb-distilbert-base
+INFO:root:Did not find folder stsb-distilbert-base
+INFO:root:Try to download model from server: https://sbert.net/models/stsb-distilbert-base.zip
+INFO:root:Load SentenceTransformer from folder: /home/jordiarmigol/.cache/torch/sentence_transformers/sbert.net_models_stsb-distilbert-base
+INFO:root:Use pytorch device: cpu
+INFO:root:Data augmentation: added 5706 sentences
+INFO:root:Epoch: 1, loss: 0.60601, Train accuracy: 0.57929
+INFO:root:Epoch: 2, loss: 0.53499, Train accuracy: 0.66874
+INFO:root:Epoch: 3, loss: 0.94992, Train accuracy: 0.70484
+INFO:root:Epoch: 4, loss: 0.34855, Train accuracy: 0.74277
+INFO:root:Epoch: 5, loss: 0.69315, Train accuracy: 0.77387
+INFO:root:Epoch: 6, loss: 0.39610, Train accuracy: 0.79122
+INFO:root:Epoch: 7, loss: 0.01249, Train accuracy: 0.79858
+INFO:root:Epoch: 8, loss: 0.01475, Train accuracy: 0.81269
+INFO:root:Epoch: 9, loss: 0.45497, Train accuracy: 0.81768
+INFO:root:Epoch: 10, loss: 0.00191, Train accuracy: 0.82565
+INFO:root:{'test_accuracy': 0.7484243697478992}
