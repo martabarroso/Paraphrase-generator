@@ -2,6 +2,11 @@
 
 Paraphrase generation with round-trip machine translation, for the Human Language Engineering course in UPC-BarcelonaTech Master in Artificial Intelligence (HLE-MAI).
 
+## Authors
+
+- Jordi Armengol-Estapé
+- Marta Barroso
+
 ## Description
 
 The task of automatically generating paraphrases is relevant for a variety of reasons. First, they are interesting per se as a proof task for Natural Language Processing (NLP) models and linguistics. Second, rephrasing a sentence is a common task for all kind of writers. Last, but not least, it could be used for data augmentation in NLP, which is more challenging than in vision (since we cannot apply spatial transformations such as rotation or cropping). In this work, we explore the well-known technique of paraphrasing via round-trip machine translation from different perspectives. Specifically, we study the effect of using different families of languages, speech recognition and synthesis systems, and multiple translation cycles. Apart from manually inspecting the generated paraphrases for an intrinsic qualitative analysis, we evaluate them with different intrinsic quantitative metrics, and use them as data augmentation in a sentence classification task, as an extrinsic evaluation. We propose a new intrinsic evaluation metric, Jaccard-Embedding Factor, which accounts for both string/word-level distance (which must be maximized, to obtain real paraprhases instead of just copies), and the cosine similarity of the sentence embeddings obtained with SentenceBERT (https://github.com/UKPLab/sentence-transformers).
