@@ -1,4 +1,4 @@
-# Paraphrase generator
+# Paraphrase generator with round-trip machine translation
 
 Paraphrase generation with round-trip machine translation, for the Human Language Engineering course in UPC-BarcelonaTech Master in Artificial Intelligence (HLE-MAI).
 
