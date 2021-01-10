@@ -100,3 +100,78 @@ python evaluate.py output/[PARAPHRASES_OUTPUT_DIRECTORY]
 ```
 
 ## Directory tree
+
+The project contains the following files and directories:
+
+-   `input/`: contains the dataset `tweets.csv`.
+
+-   `output/`: contains different foldersswith the results of
+    each experiment. The name of the folder describes the translation
+    method used, the name and the languages of the translators, the
+    dataset used, the timestamp and the commit of the repository. Each
+    of these folders contains:
+
+    -   `args.json`: contains information about the translation method
+        used, the translator names and the path of the dataset.
+
+    -   `eval-<timestamp><commit>.json`: contains the results for the
+        intrinsic and the extrinsic evaluation. For each sentence, the
+        intrinsic evaluation displays the paraphrase and the result of
+        the metrics: `bleu_score`, `normalized_original_sentence`,
+        `normalized_ paraphrase`, `embedding_cosine_similarity`,
+        `edit_distance`, `normalized_edit_distance`, `jaccard` and
+        `jaccard_embedding_factor`. At the end, it also shows the
+        description (the total number of paraphrases, the mean, the
+        standard deviation, the minimum value, the values of the
+        percentiles and the maximum value) of each metric.
+
+    -   `eval-<timestamp><commit>.log`: contains the accuracy and the
+        loss values for each epoch and the final accuracy of the
+        sentence classification task.
+
+    -   `paraphrase.log`: log file of the paraphrase generation. In
+        particular it contains information about the time that the
+        translation takes for each cycle (i.e the time to translate from
+        English to another language and vice versa).
+
+    -   `paraphrases.json`: list of lists where in each position appears
+        the original sentence and its paraphrases. In addition, this
+        folder contains a .json
+        (`paraphrases_four_sources_2021 -01-07-1735.json`) with the
+        combination of all the paraphrases generated using different
+        languages and converting the text to speech and vice versa.
+
+-   `paraphraser/`: contains the classes for generating and
+    evaluating paraphrases.
+
+-   `extrinsic_evaluation/`: contains the classes that implements the
+    sentence classification.
+
+-   `tacroton_pytorch/`: contains the implementation of the Google’s
+    Tacotron TTS system with PyTorch. This directory is not included
+    directly, but downloaded with the `get-third-party.sh` script.
+
+-   `evaluate.py`: main program that evaluates the paraphrases of a
+    given folder or directly a .json file.
+
+-   `paraphrase.py`: main program that generates paraphrases given a
+    translator method, the names of the translators and the
+    input dataset. As a result generates a folder with the results
+    located at `output`.
+
+-   `run_extrinsic_baseline.py`: executes the extrinsic evaluation
+    baseline (without data augmentation) with `tweet.csv`.
+
+-   `build_report.py`: Utility for generating Latex tables and randomly
+    sampling paraphrases for the qualitative analysis.
+
+-   `get-third-party.sh`: download the implementation of Tacrotron TTS
+    from the github repository
+    `https://github.com/ttaoREtw/Tacotron-pytorch`.
+
+-   `setup.sh`: defines the setup of the project creating the vitual
+    environment, installing the requirements and downloading the
+    implementation of Tacroton TTS.
+
+-   `requirements.txt`: includes all the libraries used in the project.
+
