@@ -28,6 +28,8 @@ Note that we also use inter-modal transformations (speech).
 
 ## Results
 
+The paraphrases generated with the Speech system seem to be useful as data augmenation. Notice how our proposed intrinsic metric, Jaccard-Embedding Factor, seems to be related with the actual performance in the extrinsic evaluation.
+
 ### Intrinsic evaluation
 
 We defined our metric, Jaccard-Embedding Factor, as: jaccard_distance * cos_sim_sentencebert. Good paraphrases maximize this metric. Apart from this metric, we collect other metrics.
