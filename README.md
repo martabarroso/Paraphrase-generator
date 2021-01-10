@@ -29,7 +29,7 @@ We defined our metric, Jaccard-Embedding Factor, as: jaccard_distance * cos_sim_
 
 - Intrinsic quantitative metrics for the vanilla round-trip machine translation paraphrasers:
 
-| extsc{Model}    | \textsc{bleu} | \textsc{emb. cos. sim.} | \textsc{norm. edit dist.} | \textsc{jaccard} | \textsc{jaccard-emb.-factor} |
+| MODEL    | BLEU | EMB. COS. SIM. | NORM. EDIT DIST. | JACCARD DIST. | JACCARD-EMB FACTOR |
 |-----------------|---------------|-------------------------|---------------------------|------------------|------------------------------|
 | German          | 0.77 (0.17)   | 0.88 (0.11)             | 6.18 (18.87)              | 0.38 (0.22)      | 0.32 (0.17)                  |
 | Icelandic       | 0.50 (0.20)   | 0.70 (0.19)             | 12.37 (28.90)             | 0.64 (0.17)      | 0.43 (0.13)                  |
@@ -38,7 +38,7 @@ We defined our metric, Jaccard-Embedding Factor, as: jaccard_distance * cos_sim_
 
 - Intrinsic quantitative metrics comparing paraphrasing methods
 
-| extsc{Model}    | \textsc{bleu} | \textsc{emb. cos. sim.} | \textsc{norm. edit dist.} | \textsc{jaccard} | \textsc{jaccard-emb.-factor} |
+| MODEL    | BLEU | EMB. COS. SIM. | NORM. EDIT DIST. | JACCARD DIST. | JACCARD-EMB FACTOR |
 |-----------------|---------------|-------------------------|---------------------------|------------------|------------------------------|
 | \textbf{Speech} | 0.65 (0.20)   | 0.71 (0.16)             | 9.97 (5.50)               | 0.67 (0.21)      | \textbf{0.46 (0.16)}         |
 | Speech N=2      | 0.62 (0.20)   | 0.66 (0.17)             | 10.47 (5.54)              | 0.69 (0.21)      | 0.44 (0.15)                  |
@@ -50,7 +50,7 @@ For the extrinsic evaluation, we use the generated paraphrases as data augmentat
 
 - Test accuracy in the extrinsic evaluation (the sentence classification task from a Kaggle competition based on tweets we said) for the vanilla round-trip machine translation paraphasers:
 
-| extsc{Model}    | \textsc{test accuracy} |
+| MODEL  | TEST ACCURACY |
 |-----------------|------------------------|
 | Baseline        | 0.735                  |
 | German          | 0.661                  |
@@ -60,7 +60,7 @@ For the extrinsic evaluation, we use the generated paraphrases as data augmentat
 
 - Test accuracy in the extrinsic evaluation for different paraphrasing methods):
 
-| extsc{Model}    | \textsc{test accuracy} |
+| MODEL  | TEST ACCURACY |
 |-----------------|------------------------|
 | Baseline        | 0.735                  |
 | \textbf{Speech} | \textbf{0.748}         |
