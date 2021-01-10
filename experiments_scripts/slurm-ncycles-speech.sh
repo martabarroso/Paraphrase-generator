@@ -7,4 +7,4 @@
 
 source ~/.bashrc
 
-bash experiments_scripts/ncycles-speec.sh
+bash experiments_scripts/ncycles-speech.sh
