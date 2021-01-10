@@ -15,6 +15,7 @@ from tacotron_pytorch.src.symbols import txt2seq
 from tacotron_pytorch.src.utils import AudioProcessor
 from tqdm import tqdm
 import datetime
+import multiprocessing as mp
 
 
 class Translator:
@@ -214,12 +215,30 @@ class TacotronPyTorch(Translator):
     def directions(self) -> List[Tuple[str, str]]:
         return self._directions
 
+    def _process_sentence(self, text: str) -> str:
+        seq = np.asarray(txt2seq(text))
+        seq = torch.from_numpy(seq).unsqueeze(0).long().to(self.device)
+        # Decode
+        with torch.no_grad():
+            mel, spec, attn = self.model(seq)
+        # Generate wav file
+        spec = spec.cpu()
+        ap = AudioProcessor(**self.config['audio'])
+        wav = ap.inv_spectrogram(spec[0].numpy().T)
+        filename = uuid.uuid4().hex
+        filename = os.path.join('tmp', f"{filename}.wav")
+        ap.save_wav(wav, filename)
+        return filename
+
     def _translate_sentences(self, sentences: Union[List[str], str]) -> Union[List[str], str]:
         one_sentence = False
         if isinstance(sentences, str):
             one_sentence = True
             sentences = [sentences]
         os.makedirs('tmp', exist_ok=True)
+        with mp.Pool() as p:
+            res = list(p.map(self._process_sentence, sentences))
+        '''
         res = []
         for text in sentences:
             seq = np.asarray(txt2seq(text))
@@ -235,6 +254,7 @@ class TacotronPyTorch(Translator):
             filename = os.path.join('tmp', f"{filename}.wav")
             ap.save_wav(wav, filename)
             res.append(filename)
+        '''
         if one_sentence:
             res = res[0]
         return res
