@@ -1,0 +1,19 @@
+INFO:root:Building paraphraser...
+INFO:root:Building: Elapsed 5.810498952865601s
+INFO:root:Translating from en into en via all
+WARNING:root:Ignoring duplicated sentences
+INFO:root:Translating from en into all
+INFO:root:Translating...
+INFO:root:Translated: Elapsed 26319.91351699829s
+INFO:root:Translating from all into en
+INFO:root:Translating...
+INFO:root:Translated: Elapsed 1004.6989850997925s
+INFO:root:Translating from en into en via all
+WARNING:root:Ignoring duplicated sentences
+INFO:root:Translating from en into all
+INFO:root:Translating...
+INFO:root:Translated: Elapsed 24535.293944835663s
+INFO:root:Translating from all into en
+INFO:root:Translating...
+INFO:root:Translated: Elapsed 950.8894999027252s
+INFO:root:Total: Elapsed 52821.61544203758s

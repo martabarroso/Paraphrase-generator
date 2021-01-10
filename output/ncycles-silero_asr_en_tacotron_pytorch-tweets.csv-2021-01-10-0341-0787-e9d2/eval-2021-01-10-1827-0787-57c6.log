@@ -1,0 +1,16 @@
+INFO:sentence_transformers.SentenceTransformer:Load pretrained SentenceTransformer: stsb-distilbert-base
+INFO:sentence_transformers.SentenceTransformer:Did not find folder stsb-distilbert-base
+INFO:sentence_transformers.SentenceTransformer:Try to download model from server: https://sbert.net/models/stsb-distilbert-base.zip
+INFO:sentence_transformers.SentenceTransformer:Load SentenceTransformer from folder: C:\Users\Asier/.cache\torch\sentence_transformers\sbert.net_models_stsb-distilbert-base
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device: cuda
+INFO:root:Data augmentation: added 5706 sentences
+INFO:root:Epoch: 1, loss: 0.44380, Train accuracy: 0.58379
+INFO:root:Epoch: 2, loss: 0.11682, Train accuracy: 0.67297
+INFO:root:Epoch: 3, loss: 0.06932, Train accuracy: 0.71564
+INFO:root:Epoch: 4, loss: 0.25991, Train accuracy: 0.75926
+INFO:root:Epoch: 5, loss: 0.46534, Train accuracy: 0.77880
+INFO:root:Epoch: 6, loss: 0.00583, Train accuracy: 0.79509
+INFO:root:Epoch: 7, loss: 0.00841, Train accuracy: 0.81340
+INFO:root:Epoch: 8, loss: 0.00288, Train accuracy: 0.82120
+INFO:root:Epoch: 9, loss: 0.23206, Train accuracy: 0.82970
+INFO:root:Epoch: 10, loss: 0.46240, Train accuracy: 0.83697
