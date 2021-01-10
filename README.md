@@ -39,13 +39,13 @@ We defined our metric, Jaccard-Embedding Factor, as: jaccard_distance * cos_sim_
 | German          | 0.77 (0.17)   | 0.88 (0.11)             | 6.18 (18.87)              | 0.38 (0.22)      | 0.32 (0.17)                  |
 | Icelandic       | 0.50 (0.20)   | 0.70 (0.19)             | 12.37 (28.90)             | 0.64 (0.17)      | 0.43 (0.13)                  |
 | Russian         | 0.58 (0.20)   | 0.78 (0.15)             | 12.36 (30.87)             | 0.59 (0.18)      | 0.45 (0.13)                  |
-| \textbf{Speech} | 0.65 (0.20)   | 0.71 (0.16)             | 9.97 (5.50)               | 0.67 (0.21)      | \textbf{0.46 (0.16)}         |
+| **Speech** | 0.65 (0.20)   | 0.71 (0.16)             | 9.97 (5.50)               | 0.67 (0.21)      | **0.46 (0.16)**         |
 
 - Intrinsic quantitative metrics comparing paraphrasing methods
 
 | MODEL    | BLEU | EMB. COS. SIM. | NORM. EDIT DIST. | JACCARD DIST. | JACCARD-EMB FACTOR |
 |-----------------|---------------|-------------------------|---------------------------|------------------|------------------------------|
-| \textbf{Speech} | 0.65 (0.20)   | 0.71 (0.16)             | 9.97 (5.50)               | 0.67 (0.21)      | \textbf{0.46 (0.16)}         |
+| **Speech** | 0.65 (0.20)   | 0.71 (0.16)             | 9.97 (5.50)               | 0.67 (0.21)      | **0.46 (0.16)**        |
 | Speech N=2      | 0.62 (0.20)   | 0.66 (0.17)             | 10.47 (5.54)              | 0.69 (0.21)      | 0.44 (0.15)                  |
 
 
@@ -61,14 +61,14 @@ For the extrinsic evaluation, we use the generated paraphrases as data augmentat
 | German          | 0.661                  |
 | Icelandic       | 0.678                  |
 | Russian         | 0.686                  |
-| \textbf{Speech} | \textbf{0.748}         |
+| **Speech** | **0.748**         |
 
 - Test accuracy in the extrinsic evaluation for different paraphrasing methods):
 
 | MODEL  | TEST ACCURACY |
 |-----------------|------------------------|
 | Baseline        | 0.735                  |
-| \textbf{Speech} | \textbf{0.748}         |
+| **Speech** | **0.748**         |
 | Speech N=2      | 0.734                  |
 
 ## Setup
@@ -112,7 +112,7 @@ The project contains the following files and directories:
 
 -   `output/`: contains different foldersswith the results of
     each experiment. The name of the folder describes the translation
-    method used, the name and the languages of the translators, the
+    method used, the name and the languages of the translators, the\tex
     dataset used, the timestamp and the commit of the repository. Each
     of these folders contains:
 
